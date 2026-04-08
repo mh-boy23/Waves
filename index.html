@@ -1,538 +1,717 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Diagnóstico QuickBooks | Envio por e-mail</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #eef2f7;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            padding: 2rem 1rem;
-            color: #1a2c3e;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
-            overflow: hidden;
-            padding: 2rem 1.5rem;
-        }
-
-        h1 {
-            font-size: 1.9rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #0e5c6f, #1e8f9c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .sub {
-            color: #4a627a;
-            border-left: 4px solid #1e8f9c;
-            padding-left: 1rem;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .card {
-            background: #f9fbfd;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #e2edf2;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #0f5c6b;
-            border-bottom: 2px solid #cbdde6;
-            padding-bottom: 0.5rem;
-        }
-
-        .card-title span {
-            background: #1e8f9c20;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: normal;
-        }
-
-        .form-group {
-            margin-bottom: 1.6rem;
-        }
-
-        label {
-            font-weight: 500;
-            display: block;
-            margin-bottom: 8px;
-            color: #1f3b4c;
-        }
-
-        .radio-group, .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            align-items: center;
-            margin-top: 6px;
-        }
-
-        .radio-group label, .checkbox-group label {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: normal;
-            margin-bottom: 0;
-            cursor: pointer;
-        }
-
-        input, select, textarea {
-            border-radius: 14px;
-            border: 1px solid #cbd5e1;
-            padding: 10px 14px;
-            font-size: 0.95rem;
-            width: 100%;
-            font-family: inherit;
-            transition: 0.2s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #1e8f9c;
-            box-shadow: 0 0 0 3px #1e8f9c30;
-        }
-
-        .checkbox-group-scroll {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            background: white;
-            padding: 0.8rem;
-            border-radius: 20px;
-            border: 1px solid #e2edf2;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            background: white;
-            border-radius: 20px;
-            overflow: auto;
-            display: block;
-        }
-
-        th, td {
-            border: 1px solid #dce5ec;
-            padding: 12px 8px;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        th {
-            background: #e6f4f5;
-            font-weight: 600;
-            color: #115e6b;
-        }
-
-        td:first-child {
-            text-align: left;
-            font-weight: 500;
-            background-color: #fefefe;
-        }
-
-        .radio-inline {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .radio-inline label {
-            margin: 0;
-            font-weight: normal;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 2rem;
-            justify-content: space-between;
-        }
-
-        button {
-            background: #1e8f9c;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        button:hover {
-            background: #0e6f7c;
-            transform: scale(1.02);
-        }
-
-        .btn-secondary {
-            background: #4b6a7e;
-        }
-
-        .btn-secondary:hover {
-            background: #2c4b5e;
-        }
-
-        .btn-email {
-            background: #c2410c;
-        }
-        .btn-email:hover {
-            background: #9a3412;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            max-width: 700px;
-            width: 90%;
-            border-radius: 32px;
-            padding: 1.8rem;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
-        }
-
-        .modal-content h3 {
-            margin-bottom: 1rem;
-            color: #0f5c6b;
-        }
-
-        .modal-content pre {
-            background: #f0f4f8;
-            padding: 1rem;
-            border-radius: 16px;
-            overflow-x: auto;
-            font-size: 0.8rem;
-            white-space: pre-wrap;
-        }
-
-        .close-modal {
-            background: #8faaaf;
-            margin-top: 1rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.75rem;
-            color: #6c868e;
-        }
-
-        @media (max-width: 700px) {
-            .container {
-                padding: 1rem;
-            }
-            th, td {
-                padding: 8px 4px;
-            }
-            .radio-inline label {
-                font-size: 0.75rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>HanzWave · feel the data, live the sound</title>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0B0B0B;
+      color: #f0f0f5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    h1, h2, h3, .logo, .section-header {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+    /* brand colors */
+    :root {
+      --deep-black: #0B0B0B;
+      --neon-green: #00FF9C;
+      --digital-blue: #00C2FF;
+      --card-bg: #15181e;
+      --sidebar-bg: #0D0F14;
+    }
+    /* layout */
+    .app {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+    /* sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      padding: 28px 16px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #22252c;
+    }
+    .logo-area {
+      margin-bottom: 36px;
+      padding-left: 8px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #00FF9C, #00C2FF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px #00C2FF40;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #00FF9C;
+      filter: drop-shadow(0 0 6px #00FF9C);
+    }
+    .founder-tag {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 4px;
+      padding-left: 12px;
+      letter-spacing: 0.3px;
+    }
+    .nav-menu {
+      flex: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      margin: 4px 0;
+      border-radius: 14px;
+      color: #b0b0c8;
+      font-weight: 500;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .nav-item i {
+      width: 24px;
+      font-size: 1.2rem;
+    }
+    .nav-item.active {
+      background: #1F2530;
+      color: white;
+      border-left: 3px solid var(--neon-green);
+    }
+    .nav-item:hover:not(.active) {
+      background: #1A1E26;
+      color: #e0e0ff;
+    }
+    .slogan-side {
+      margin-top: 24px;
+      padding: 16px;
+      font-size: 0.8rem;
+      color: #00C2FF;
+      border-top: 1px solid #2a2e38;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    /* main */
+    .main-panel {
+      flex: 1;
+      background: #0B0B0B;
+      padding: 24px 32px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, #b0f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(145deg, #00C2FF, #00FF9C);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #0B0B0B;
+    }
+    .upload-btn {
+      background: transparent;
+      border: 1.5px solid #00FF9C;
+      color: #00FF9C;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .upload-btn:hover {
+      background: #00FF9C20;
+      border-color: #00C2FF;
+      color: white;
+    }
+    /* tabs */
+    .view-tabs {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #2a2e38;
+      padding-bottom: 8px;
+    }
+    .tab {
+      font-weight: 600;
+      padding: 8px 0;
+      color: #9a9ab0;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: 0.1s;
+    }
+    .tab.active {
+      color: white;
+      border-bottom: 3px solid #00FF9C;
+    }
+    /* library grid */
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 22px;
+    }
+    .track-card {
+      background: #13171e;
+      border-radius: 20px;
+      padding: 16px 14px 14px;
+      border: 1px solid #252b36;
+      transition: 0.15s;
+      cursor: pointer;
+    }
+    .track-card:hover {
+      background: #1c212b;
+      border-color: #00C2FF60;
+    }
+    .card-art {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: linear-gradient(145deg, #1e2632, #0f131a);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      color: #00FF9C;
+      font-size: 2.4rem;
+      box-shadow: 0 8px 0 #00000030;
+    }
+    .track-title {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track-artist {
+      font-size: 0.9rem;
+      color: #9aa0b0;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+    .play-card {
+      background: #00C2FF;
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      color: #0B0B0B;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .support-btn {
+      background: transparent;
+      border: 1px solid #00FF9C;
+      color: #00FF9C;
+      border-radius: 30px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    /* data mode dashboard */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .stat-card {
+      background: #11161e;
+      border-radius: 24px;
+      padding: 22px;
+      border: 1px solid #2a3340;
+    }
+    .stat-value {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #00FF9C;
+    }
+    .insight-btn {
+      background: #00C2FF20;
+      border: 1px solid #00C2FF;
+      color: #00C2FF;
+      padding: 14px 24px;
+      border-radius: 50px;
+      margin-top: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      width: fit-content;
+    }
+    /* player bar */
+    .player-bar {
+      background: #0D1117;
+      border-top: 1px solid #1F2833;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      box-shadow: 0 -4px 20px #00000080;
+    }
+    .now-playing {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 260px;
+    }
+    .np-art {
+      width: 54px;
+      height: 54px;
+      background: #1B232E;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #00FF9C;
+    }
+    .wave-visual {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-left: 12px;
+    }
+    .wave-bar {
+      width: 4px;
+      height: 20px;
+      background: #00C2FF;
+      border-radius: 4px;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    @keyframes wave {
+      0%,100% { height: 12px; }
+      50% { height: 28px; background: #00FF9C; }
+    }
+    .player-controls {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .ctrl-buttons {
+      display: flex;
+      gap: 28px;
+    }
+    .ctrl-btn {
+      background: none;
+      border: none;
+      color: #ddd;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .play-pause {
+      background: white;
+      color: #0B0B0B;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    .progress-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 80%;
+    }
+    .seek-slider {
+      flex: 1;
+      height: 5px;
+      background: #2a3a4a;
+    }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000000b0;
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal {
+      background: #151e28;
+      border-radius: 32px;
+      padding: 32px;
+      width: 460px;
+      border: 1px solid #00C2FF40;
+    }
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00C2FF;
+      color: #0B0B0B;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 60px;
+      z-index: 2000;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .insight-modal-content {
+      color: #ddd;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <h1>📊 Diagnóstico de dificuldades com o QuickBooks</h1>
-    <div class="sub">Responda com honestidade. Suas respostas serão enviadas por e-mail para análise (após clique no botão laranja).</div>
 
-    <form id="questionarioForm">
-        <!-- SEÇÃO 1 – PERFIL -->
-        <div class="card">
-            <div class="card-title">🧑‍💼 Perfil de uso <span>1/7</span></div>
-            <div class="form-group">
-                <label>1. Há quanto tempo você usa o QuickBooks?</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="tempoUso" value="Menos de 3 meses"> Menos de 3 meses</label>
-                    <label><input type="radio" name="tempoUso" value="3 a 12 meses"> 3 a 12 meses</label>
-                    <label><input type="radio" name="tempoUso" value="1 a 3 anos"> 1 a 3 anos</label>
-                    <label><input type="radio" name="tempoUso" value="Mais de 3 anos"> Mais de 3 anos</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>2. Com que frequência usa o QuickBooks no dia a dia?</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="frequencia" value="Várias vezes por dia"> Várias vezes/dia</label>
-                    <label><input type="radio" name="frequencia" value="Uma vez por dia"> Uma vez/dia</label>
-                    <label><input type="radio" name="frequencia" value="Algumas vezes por semana"> Algumas vezes/semana</label>
-                    <label><input type="radio" name="frequencia" value="Raramente"> Raramente</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>3. Qual versão do QuickBooks você mais utiliza?</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="versao" value="QuickBooks Online"> QuickBooks Online</label>
-                    <label><input type="radio" name="versao" value="QuickBooks Desktop (Pro/Premier/Enterprise)"> Desktop (Pro/Premier)</label>
-                    <label><input type="radio" name="versao" value="QuickBooks Self-Employed"> Self-Employed</label>
-                    <label><input type="radio" name="versao" value="Não sei informar"> Não sei informar</label>
-                </div>
-            </div>
-        </div>
+<!-- Toast -->
+<div id="toast" class="toast">✓ Action completed</div>
 
-        <!-- SEÇÃO 2 – TAREFAS EXECUTADAS -->
-        <div class="card">
-            <div class="card-title">✅ Tarefas que você precisa executar <span>2/7</span></div>
-            <div class="checkbox-group-scroll" id="tarefasCheckbox">
-                <label><input type="checkbox" name="tarefa" value="Lançar contas a pagar/receber"> 📑 Contas a pagar/receber</label>
-                <label><input type="checkbox" name="tarefa" value="Conciliar extratos bancários"> 🏦 Conciliar extratos</label>
-                <label><input type="checkbox" name="tarefa" value="Emitir notas fiscais ou faturas"> 📄 Emitir faturas/NFe</label>
-                <label><input type="checkbox" name="tarefa" value="Registrar despesas com categorização correta"> 💸 Registrar despesas</label>
-                <label><input type="checkbox" name="tarefa" value="Gerar relatórios (DRE, balancete, fluxo de caixa)"> 📊 Gerar relatórios</label>
-                <label><input type="checkbox" name="tarefa" value="Importar/exportar dados de bancos ou planilhas"> 🔄 Importar/exportar dados</label>
-                <label><input type="checkbox" name="tarefa" value="Controlar estoque"> 📦 Controlar estoque</label>
-                <label><input type="checkbox" name="tarefa" value="Fazer lançamentos contábeis manuais (débito/crédito)"> ✍️ Lançamentos manuais</label>
-                <label><input type="checkbox" name="tarefa" value="Configurar produtos/serviços"> ⚙️ Configurar produtos/serviços</label>
-                <label><input type="checkbox" name="tarefa" value="Gerenciar folha de pagamento"> 👥 Folha de pagamento</label>
-            </div>
-        </div>
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <h2 style="color:#00FF9C; margin-bottom:24px;"><i class="fas fa-cloud-upload-alt"></i> Upload your sound</h2>
+    <div style="margin-bottom:20px"><label>Title</label><input id="titleInp" style="width:100%; padding:14px; background:#0f1a24; border:1px solid #2a4a5a; border-radius:16px; color:white;" placeholder="Afro wave"></div>
+    <div style="margin-bottom:20px"><label>Artist</label><input id="artistInp" style="width:100%; padding:14px; background:#0f1a24; border:1px solid #2a4a5a; border-radius:16px; color:white;" placeholder="Hanz Domingos"></div>
+    <div style="margin-bottom:28px"><label>Audio</label><input type="file" id="fileInp" accept="audio/*" style="color:white;"></div>
+    <div style="display:flex; gap:12px;">
+      <button id="cancelModal" style="flex:1; padding:14px; background:#2a3a4a; border:none; border-radius:40px; color:white;">Cancel</button>
+      <button id="uploadConfirm" style="flex:1; padding:14px; background:#00C2FF; border:none; border-radius:40px; font-weight:700;">Upload</button>
+    </div>
+  </div>
+</div>
 
-        <!-- SEÇÃO 3 – MATRIZ DE DIFICULDADE -->
-        <div class="card">
-            <div class="card-title">⚠️ Nível de dificuldade por tarefa <span>3/7</span></div>
-            <div style="overflow-x: auto;">
-                <table id="matrizDificuldade">
-                    <thead><tr><th>Tarefa</th><th>1 (Muito fácil)</th><th>2 (Fácil)</th><th>3 (Médio)</th><th>4 (Difícil)</th><th>5 (Muito difícil)</th></tr></thead>
-                    <tbody>
-                        <tr><td>Contas a pagar/receber</td><td class="radio-inline"><label><input type="radio" name="diff_contas" value="1">1</label></td><td><label><input type="radio" name="diff_contas" value="2">2</label></td><td><label><input type="radio" name="diff_contas" value="3">3</label></td><td><label><input type="radio" name="diff_contas" value="4">4</label></td><td><label><input type="radio" name="diff_contas" value="5">5</label></td></tr>
-                        <tr><td>Conciliação bancária</td><td><label><input type="radio" name="diff_concil" value="1">1</label></td><td><label><input type="radio" name="diff_concil" value="2">2</label></td><td><label><input type="radio" name="diff_concil" value="3">3</label></td><td><label><input type="radio" name="diff_concil" value="4">4</label></td><td><label><input type="radio" name="diff_concil" value="5">5</label></td></tr>
-                        <tr><td>Emissão de faturas</td><td><label><input type="radio" name="diff_fatura" value="1">1</label></td><td><label><input type="radio" name="diff_fatura" value="2">2</label></td><td><label><input type="radio" name="diff_fatura" value="3">3</label></td><td><label><input type="radio" name="diff_fatura" value="4">4</label></td><td><label><input type="radio" name="diff_fatura" value="5">5</label></td></tr>
-                        <tr><td>Registrar despesas</td><td><label><input type="radio" name="diff_despesa" value="1">1</label></td><td><label><input type="radio" name="diff_despesa" value="2">2</label></td><td><label><input type="radio" name="diff_despesa" value="3">3</label></td><td><label><input type="radio" name="diff_despesa" value="4">4</label></td><td><label><input type="radio" name="diff_despesa" value="5">5</label></td></tr>
-                        <tr><td>Gerar relatórios</td><td><label><input type="radio" name="diff_relatorio" value="1">1</label></td><td><label><input type="radio" name="diff_relatorio" value="2">2</label></td><td><label><input type="radio" name="diff_relatorio" value="3">3</label></td><td><label><input type="radio" name="diff_relatorio" value="4">4</label></td><td><label><input type="radio" name="diff_relatorio" value="5">5</label></td></tr>
-                        <tr><td>Importar/exportar dados</td><td><label><input type="radio" name="diff_import" value="1">1</label></td><td><label><input type="radio" name="diff_import" value="2">2</label></td><td><label><input type="radio" name="diff_import" value="3">3</label></td><td><label><input type="radio" name="diff_import" value="4">4</label></td><td><label><input type="radio" name="diff_import" value="5">5</label></td></tr>
-                        <tr><td>Controle de estoque</td><td><label><input type="radio" name="diff_estoque" value="1">1</label></td><td><label><input type="radio" name="diff_estoque" value="2">2</label></td><td><label><input type="radio" name="diff_estoque" value="3">3</label></td><td><label><input type="radio" name="diff_estoque" value="4">4</label></td><td><label><input type="radio" name="diff_estoque" value="5">5</label></td></tr>
-                        <tr><td>Lançamentos contábeis manuais</td><td><label><input type="radio" name="diff_lancmanual" value="1">1</label></td><td><label><input type="radio" name="diff_lancmanual" value="2">2</label></td><td><label><input type="radio" name="diff_lancmanual" value="3">3</label></td><td><label><input type="radio" name="diff_lancmanual" value="4">4</label></td><td><label><input type="radio" name="diff_lancmanual" value="5">5</label></td></tr>
-                        <tr><td>Configurar produtos/serviços</td><td><label><input type="radio" name="diff_config" value="1">1</label></td><td><label><input type="radio" name="diff_config" value="2">2</label></td><td><label><input type="radio" name="diff_config" value="3">3</label></td><td><label><input type="radio" name="diff_config" value="4">4</label></td><td><label><input type="radio" name="diff_config" value="5">5</label></td></tr>
-                        <tr><td>Folha de pagamento</td><td><label><input type="radio" name="diff_folha" value="1">1</label></td><td><label><input type="radio" name="diff_folha" value="2">2</label></td><td><label><input type="radio" name="diff_folha" value="3">3</label></td><td><label><input type="radio" name="diff_folha" value="4">4</label></td><td><label><input type="radio" name="diff_folha" value="5">5</label></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<!-- Weekly Insight Modal -->
+<div class="modal-overlay" id="insightModal">
+  <div class="modal insight-modal-content">
+    <h2 style="color:#00FF9C;">📊 Weekly Insight Report</h2>
+    <div style="margin:24px 0;" id="insightText">Loading your listening DNA...</div>
+    <button id="closeInsight" style="background:#00C2FF; border:none; padding:14px 28px; border-radius:40px; font-weight:700;">Close</button>
+  </div>
+</div>
 
-        <!-- SEÇÃO 4 – ERROS E CONCEITOS -->
-        <div class="card">
-            <div class="card-title">❌ Erros recorrentes & dificuldades conceituais <span>4/7</span></div>
-            <div class="form-group">
-                <label>6. Você já cometeu algum erro recorrente? Se sim, qual?</label>
-                <select name="erroRecorrente" style="width:100%">
-                    <option value="">Selecione...</option>
-                    <option value="Erro na conciliação (valores não batem)">Erro na conciliação</option>
-                    <option value="Lançamento em conta errada">Lançamento em conta errada</option>
-                    <option value="Duplicação de transações">Duplicação de transações</option>
-                    <option value="Esquecer de lançar algo">Esquecer de lançar algo</option>
-                    <option value="Erro ao importar arquivo">Erro ao importar</option>
-                    <option value="Não sei identificar o erro">Não sei identificar</option>
-                    <option value="Outro">Outro (escreva abaixo)</option>
-                </select>
-                <input type="text" name="outroErro" placeholder="Descreva outro erro..." style="margin-top:8px;">
-            </div>
-            <div class="form-group">
-                <label>7. O que você acha mais difícil de entender? (pode escolher até 2)</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Lógica de débito e crédito"> Lógica débito/crédito</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Diferença entre fatura e recibo"> Diferença fatura/recibo</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Usar classes ou localizações"> Classes/localizações</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Lançamento de ajuste"> Lançamento de ajuste</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Gerar relatório específico"> Relatório específico</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Corrigir lançamento já feito"> Corrigir lançamento</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Navegação entre menus"> Navegação</label>
-                    <label><input type="checkbox" name="dificuldadeConceito" value="Outro:"> Outro: <input type="text" name="outroConceito" placeholder="qual?" style="width:auto; display:inline-block; width:150px;"></label>
-                </div>
-            </div>
-        </div>
+<div class="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-area">
+      <div class="logo">
+        <i class="fas fa-wave-square"></i> HanzWave
+      </div>
+      <div class="founder-tag">by Hanz Domingos · feel the data, live the sound</div>
+    </div>
+    <div class="nav-menu">
+      <div class="nav-item active" data-view="library"><i class="fas fa-home"></i> Home</div>
+      <div class="nav-item" data-view="library"><i class="fas fa-compact-disc"></i> Library</div>
+      <div class="nav-item" data-view="data"><i class="fas fa-chart-pie"></i> Data Mode 🔥</div>
+      <div class="nav-item"><i class="fas fa-search"></i> Search</div>
+      <div class="nav-item"><i class="fas fa-user-circle"></i> Profile</div>
+    </div>
+    <div class="slogan-side">
+      <i class="fas fa-map-pin"></i> Maputo · Africa<br>
+      <span style="color:#888;">Intelligent listening</span>
+    </div>
+  </div>
 
-        <!-- SEÇÃO 5 – COMPORTAMENTO -->
-        <div class="card">
-            <div class="card-title">🧠 Quando tem dúvida <span>5/7</span></div>
-            <div class="form-group">
-                <label>8. Quando você tem dúvida, o que costuma fazer?</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="acaoDuvida" value="Pergunto a um colega"> Pergunto a um colega</label>
-                    <label><input type="radio" name="acaoDuvida" value="Tento achar sozinho nos menus"> Tento achar sozinho</label>
-                    <label><input type="radio" name="acaoDuvida" value="Uso a ajuda do QuickBooks"> Ajuda do QB (F1)</label>
-                    <label><input type="radio" name="acaoDuvida" value="Pesquiso no Google/YouTube"> Google/YouTube</label>
-                    <label><input type="radio" name="acaoDuvida" value="Chamo o gestor"> Chamo o gestor</label>
-                    <label><input type="radio" name="acaoDuvida" value="Deixo para resolver depois"> Deixo para depois</label>
-                </div>
-            </div>
-        </div>
+  <!-- Main Panel -->
+  <div class="main-panel">
+    <div class="top-bar">
+      <span class="page-title" id="viewTitle">🎧 Your Library</span>
+      <div class="user-profile">
+        <button class="upload-btn" id="topUploadBtn"><i class="fas fa-plus-circle"></i> Upload</button>
+        <div class="avatar">HD</div>
+      </div>
+    </div>
+    <!-- Tabs (dynamic) -->
+    <div class="view-tabs" id="viewTabs">
+      <div class="tab active" data-tab="library">🎵 Library</div>
+      <div class="tab" data-tab="data">📊 Data Dashboard</div>
+    </div>
+    <!-- Dynamic content container -->
+    <div id="contentArea"></div>
+  </div>
+</div>
 
-        <!-- SEÇÃO 6 – TEMPO E PERCEPÇÃO -->
-        <div class="card">
-            <div class="card-title">⏱️ Tempo e percepção <span>6/7</span></div>
-            <div class="form-group"><label>9. Tempo perdido por semana resolvendo problemas no QB?</label>
-                <div class="radio-group"><label><input type="radio" name="tempoPerdido" value="Menos de 1 hora"> <1h</label><label><input type="radio" name="tempoPerdido" value="1 a 3 horas"> 1-3h</label><label><input type="radio" name="tempoPerdido" value="3 a 5 horas"> 3-5h</label><label><input type="radio" name="tempoPerdido" value="Mais de 5 horas"> >5h</label></div>
-            </div>
-            <div class="form-group"><label>10. O QuickBooks te ajuda a economizar tempo ou atrapalha?</label>
-                <div class="radio-group"><label><input type="radio" name="ajudaPercepcao" value="Ajuda muito"> Ajuda muito</label><label><input type="radio" name="ajudaPercepcao" value="Ajuda um pouco"> Ajuda pouco</label><label><input type="radio" name="ajudaPercepcao" value="Nem ajuda nem atrapalha"> Neutro</label><label><input type="radio" name="ajudaPercepcao" value="Atrapalha mais que ajuda"> Atrapalha</label><label><input type="radio" name="ajudaPercepcao" value="Atrapalha muito"> Atrapalha muito</label></div>
-            </div>
-            <div class="form-group"><label>11. Você já teve treinamento formal em QuickBooks?</label>
-                <div class="radio-group"><label><input type="radio" name="treinamento" value="Sim, completo"> Completo</label><label><input type="radio" name="treinamento" value="Sim, básico"> Básico</label><label><input type="radio" name="treinamento" value="Apenas instruções rápidas"> Instruções rápidas</label><label><input type="radio" name="treinamento" value="Nenhum"> Nenhum</label></div>
-            </div>
-        </div>
-
-        <!-- SEÇÃO 7 – CONFIANÇA + ABERTAS -->
-        <div class="card">
-            <div class="card-title">🎯 Confiança e melhorias <span>7/7</span></div>
-            <div class="form-group"><label>12. Confiança para usar o QuickBooks sozinho (1 a 5)</label>
-                <div class="radio-group"><label><input type="radio" name="confianca" value="1">1 (nada)</label><label><input type="radio" name="confianca" value="2">2</label><label><input type="radio" name="confianca" value="3">3</label><label><input type="radio" name="confianca" value="4">4</label><label><input type="radio" name="confianca" value="5">5 (total)</label></div>
-            </div>
-            <div class="form-group"><label>13. O que você mais gostaria de aprender ou melhorar no QuickBooks?</label><textarea name="aprender" rows="3" placeholder="Ex: conciliação automática, relatórios gerenciais..."></textarea></div>
-            <div class="form-group"><label>14. Se pudesse pedir uma melhoria ou funcionalidade, qual seria?</label><textarea name="melhoria" rows="2" placeholder="Sugestões de funcionalidades..."></textarea></div>
-        </div>
-
-        <div class="btn-group">
-            <button type="button" id="copiarBtn">📋 Copiar respostas (texto)</button>
-            <button type="button" id="enviarEmailBtn" class="btn-email">✉️ Enviar respostas para hanzdomingos@gmail.com</button>
-            <button type="reset" class="btn-secondary">🗑️ Limpar tudo</button>
-        </div>
-        <footer>✓ Ao clicar em "Enviar respostas", seu programa de e-mail abrirá com tudo preenchido. Basta enviar.</footer>
-    </form>
+<!-- Player Bar -->
+<div class="player-bar">
+  <div class="now-playing">
+    <div class="np-art" id="npArt"><i class="fas fa-music"></i></div>
+    <div>
+      <div id="npTitle" style="font-weight:600;">Not playing</div>
+      <div id="npArtist" style="font-size:0.85rem; color:#aaa;">—</div>
+    </div>
+    <div class="wave-visual" id="waveVisual">
+      <div class="wave-bar" style="animation-delay:0s"></div><div class="wave-bar" style="animation-delay:0.2s"></div><div class="wave-bar" style="animation-delay:0.4s"></div><div class="wave-bar" style="animation-delay:0.1s"></div><div class="wave-bar" style="animation-delay:0.3s"></div>
+    </div>
+  </div>
+  <div class="player-controls">
+    <div class="ctrl-buttons">
+      <button class="ctrl-btn" id="shuffleBtn"><i class="fas fa-random"></i></button>
+      <button class="ctrl-btn" id="prevBtn"><i class="fas fa-step-backward"></i></button>
+      <button class="ctrl-btn play-pause" id="playPauseBtn"><i class="fas fa-play"></i></button>
+      <button class="ctrl-btn" id="nextBtn"><i class="fas fa-step-forward"></i></button>
+      <button class="ctrl-btn" id="repeatBtn"><i class="fas fa-redo-alt"></i></button>
+    </div>
+    <div class="progress-area">
+      <span id="currentTime">0:00</span>
+      <input type="range" class="seek-slider" id="seekSlider" min="0" max="100" value="0" step="0.1">
+      <span id="durationTime">0:00</span>
+    </div>
+  </div>
+  <div style="display:flex; gap:12px;">
+    <i class="fas fa-volume-up" style="color:#00C2FF;"></i>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" style="width:80px;">
+  </div>
 </div>
 
 <script>
-    const form = document.getElementById('questionarioForm');
-
-    function coletarRespostas() {
-        const respostas = {};
-
-        // Perfil
-        respostas.tempoUso = document.querySelector('input[name="tempoUso"]:checked')?.value || '';
-        respostas.frequencia = document.querySelector('input[name="frequencia"]:checked')?.value || '';
-        respostas.versao = document.querySelector('input[name="versao"]:checked')?.value || '';
-
-        // Tarefas selecionadas
-        const tarefasSelecionadas = Array.from(document.querySelectorAll('#tarefasCheckbox input[type="checkbox"]:checked')).map(cb => cb.value);
-        respostas.tarefasExecutadas = tarefasSelecionadas;
-
-        // Matriz de dificuldade
-        const dificuldadeMap = {
-            diff_contas: 'Contas a pagar/receber',
-            diff_concil: 'Conciliação bancária',
-            diff_fatura: 'Emissão de faturas',
-            diff_despesa: 'Registrar despesas',
-            diff_relatorio: 'Gerar relatórios',
-            diff_import: 'Importar/exportar dados',
-            diff_estoque: 'Controle de estoque',
-            diff_lancmanual: 'Lançamentos manuais',
-            diff_config: 'Configurar produtos/serviços',
-            diff_folha: 'Folha de pagamento'
-        };
-        let dificuldades = {};
-        for (let [name, label] of Object.entries(dificuldadeMap)) {
-            let el = document.querySelector(`input[name="${name}"]:checked`);
-            dificuldades[label] = el ? el.value : null;
-        }
-        respostas.nivelDificuldade = dificuldades;
-
-        // Erro recorrente
-        let erroSelect = document.querySelector('select[name="erroRecorrente"]').value;
-        let outroErro = document.querySelector('input[name="outroErro"]').value;
-        respostas.erroRecorrente = (erroSelect === 'Outro' && outroErro) ? `Outro: ${outroErro}` : erroSelect;
-
-        // Dificuldade conceitual (checkbox)
-        let conceitos = Array.from(document.querySelectorAll('input[name="dificuldadeConceito"]:checked')).map(cb => cb.value);
-        let outroConceitoInput = document.querySelector('input[name="outroConceito"]');
-        if (outroConceitoInput && outroConceitoInput.value.trim() !== "") conceitos.push(`Outro: ${outroConceitoInput.value}`);
-        respostas.dificuldadeConceitual = conceitos;
-
-        // Ação dúvida
-        respostas.acaoDuvida = document.querySelector('input[name="acaoDuvida"]:checked')?.value || '';
-        respostas.tempoPerdido = document.querySelector('input[name="tempoPerdido"]:checked')?.value || '';
-        respostas.ajudaPercepcao = document.querySelector('input[name="ajudaPercepcao"]:checked')?.value || '';
-        respostas.treinamento = document.querySelector('input[name="treinamento"]:checked')?.value || '';
-        respostas.confianca = document.querySelector('input[name="confianca"]:checked')?.value || '';
-        respostas.gostariaDeAprender = document.querySelector('textarea[name="aprender"]').value;
-        respostas.sugestaoMelhoria = document.querySelector('textarea[name="melhoria"]').value;
-
-        return respostas;
+  (function(){
+    // ----- STATE -----
+    let tracks = []; // { id, title, artist, file, url }
+    let currentIndex = -1;
+    let audio = new Audio();
+    let isPlaying = false;
+    let listeningStats = {
+      totalSeconds: 0,
+      topArtists: {},
+      genres: { 'Afrobeats': 45, 'Amapiano': 30, 'Hip-Hop': 20, 'R&B': 5 }
+    };
+    
+    // Load from localStorage
+    try {
+      const saved = localStorage.getItem('hanzwave_tracks');
+      if(saved) {
+        const parsed = JSON.parse(saved);
+        tracks = parsed.map(t => ({...t, url: t.url, file: null}));
+      }
+      const stats = localStorage.getItem('hanzwave_stats');
+      if(stats) listeningStats = JSON.parse(stats);
+    } catch(e){}
+    
+    // DOM elements
+    const contentArea = document.getElementById('contentArea');
+    const viewTitle = document.getElementById('viewTitle');
+    const tabs = document.querySelectorAll('.tab');
+    const navItems = document.querySelectorAll('.nav-item[data-view]');
+    let currentView = 'library'; // library or data
+    
+    const npTitle = document.getElementById('npTitle'), npArtist = document.getElementById('npArtist'), npArt = document.getElementById('npArt');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const seekSlider = document.getElementById('seekSlider');
+    const currentTimeSpan = document.getElementById('currentTime');
+    const durationSpan = document.getElementById('durationTime');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const waveVisual = document.getElementById('waveVisual');
+    
+    const uploadModal = document.getElementById('uploadModal');
+    const insightModal = document.getElementById('insightModal');
+    const toast = document.getElementById('toast');
+    
+    // helper
+    function formatTime(s) { if(isNaN(s)) return '0:00'; const m=Math.floor(s/60); const sec=Math.floor(s%60); return `${m}:${sec.toString().padStart(2,'0')}`; }
+    function showToast(msg) { toast.textContent=msg; toast.style.opacity=1; setTimeout(()=>toast.style.opacity=0,2000); }
+    function saveState() {
+      localStorage.setItem('hanzwave_tracks', JSON.stringify(tracks.map(t=>({...t, url:t.url, file:null}))));
+      localStorage.setItem('hanzwave_stats', JSON.stringify(listeningStats));
     }
-
-    function formatarRespostasTexto(respostas) {
-        let txt = "===== DIAGNÓSTICO QUICKBOOKS =====\n\n";
-        txt += `📅 Tempo de uso: ${respostas.tempoUso || "—"}\n`;
-        txt += `🔄 Frequência: ${respostas.frequencia || "—"}\n`;
-        txt += `💻 Versão: ${respostas.versao || "—"}\n\n`;
-        txt += `✅ Tarefas executadas: ${respostas.tarefasExecutadas.length ? respostas.tarefasExecutadas.join(", ") : "Nenhuma selecionada"}\n\n`;
-        txt += `⚠️ Nível de dificuldade (1=fácil a 5=muito difícil):\n`;
-        for (let [tarefa, nivel] of Object.entries(respostas.nivelDificuldade)) {
-            txt += `   - ${tarefa}: ${nivel || "não respondido"}\n`;
-        }
-        txt += `\n❌ Erro recorrente: ${respostas.erroRecorrente || "—"}\n`;
-        txt += `🧩 Dificuldades conceituais: ${respostas.dificuldadeConceitual.length ? respostas.dificuldadeConceitual.join(", ") : "nenhuma"}\n`;
-        txt += `🆘 Quando tem dúvida: ${respostas.acaoDuvida || "—"}\n`;
-        txt += `⏱️ Tempo perdido/semana: ${respostas.tempoPerdido || "—"}\n`;
-        txt += `📈 Percepção sobre o QB: ${respostas.ajudaPercepcao || "—"}\n`;
-        txt += `🎓 Treinamento: ${respostas.treinamento || "—"}\n`;
-        txt += `🎯 Confiança (1-5): ${respostas.confianca || "—"}\n`;
-        txt += `📝 O que gostaria de aprender: ${respostas.gostariaDeAprender || "—"}\n`;
-        txt += `💡 Sugestão de melhoria: ${respostas.sugestaoMelhoria || "—"}\n`;
-        return txt;
+    
+    // Update player UI
+    function updatePlayerUI() {
+      if(currentIndex>=0 && tracks[currentIndex]) {
+        const t = tracks[currentIndex];
+        npTitle.textContent = t.title; npArtist.textContent = t.artist;
+        npArt.innerHTML = '<i class="fas fa-music"></i>';
+      } else {
+        npTitle.textContent = 'Not playing'; npArtist.textContent = '—';
+      }
     }
-
-    // Botão copiar
-    document.getElementById('copiarBtn').addEventListener('click', () => {
-        const respostas = coletarRespostas();
-        const texto = formatarRespostasTexto(respostas);
-        navigator.clipboard.writeText(texto).then(() => {
-            alert("✅ Respostas copiadas para a área de transferência! Cole em um e-mail ou bloco de notas.");
-        }).catch(() => alert("Não foi possível copiar, mas você pode selecionar manualmente."));
+    
+    // Play track
+    function playTrack(index) {
+      if(index<0||index>=tracks.length) return;
+      if(currentIndex===index) {
+        if(audio.paused) { audio.play(); isPlaying=true; playPauseBtn.innerHTML='<i class="fas fa-pause"></i>'; }
+        else { audio.pause(); isPlaying=false; playPauseBtn.innerHTML='<i class="fas fa-play"></i>'; }
+        return;
+      }
+      currentIndex = index;
+      audio.src = tracks[index].url;
+      audio.volume = volumeSlider.value;
+      audio.play().then(()=>{ isPlaying=true; playPauseBtn.innerHTML='<i class="fas fa-pause"></i>'; }).catch(e=>console.warn);
+      updatePlayerUI();
+      // start tracking time
+    }
+    
+    // Audio events
+    audio.addEventListener('timeupdate', ()=>{
+      seekSlider.value = audio.currentTime;
+      currentTimeSpan.textContent = formatTime(audio.currentTime);
+      // simulate listening time accumulation
+      if(!audio.paused) {
+        listeningStats.totalSeconds += 0.1; // approx
+        if(listeningStats.totalSeconds > 3600*100) listeningStats.totalSeconds = 3600*100;
+        // increment top artist
+        if(currentIndex>=0) {
+          const art = tracks[currentIndex].artist;
+          listeningStats.topArtists[art] = (listeningStats.topArtists[art]||0)+0.05;
+        }
+        saveState();
+      }
     });
-
-    // Botão enviar e-mail (abre cliente de e-mail)
-    document.getElementById('enviarEmailBtn').addEventListener('click', () => {
-        const respostas = coletarRespostas();
-        const texto = formatarRespostasTexto(respostas);
-        const assunto = encodeURIComponent("Diagnóstico QuickBooks - Respostas do funcionário");
-        const corpo = encodeURIComponent(texto);
-        const emailDestino = "hanzdomingos@gmail.com";
-        window.location.href = `mailto:${emailDestino}?subject=${assunto}&body=${corpo}`;
+    audio.addEventListener('loadedmetadata', ()=>{ durationSpan.textContent=formatTime(audio.duration); seekSlider.max=audio.duration; });
+    audio.addEventListener('ended', ()=>{ if(tracks.length) playTrack((currentIndex+1)%tracks.length); });
+    audio.addEventListener('play', ()=>{ playPauseBtn.innerHTML='<i class="fas fa-pause"></i>'; waveVisual.style.opacity=1; });
+    audio.addEventListener('pause', ()=>{ playPauseBtn.innerHTML='<i class="fas fa-play"></i>'; });
+    
+    seekSlider.addEventListener('input', (e)=> { if(audio.src) audio.currentTime = e.target.value; });
+    volumeSlider.addEventListener('input', (e)=> audio.volume = e.target.value);
+    playPauseBtn.addEventListener('click', ()=>{
+      if(tracks.length && currentIndex===-1) playTrack(0);
+      else if(currentIndex>=0) {
+        if(audio.paused) audio.play(); else audio.pause();
+      }
     });
+    document.getElementById('prevBtn').addEventListener('click', ()=>{
+      if(tracks.length) playTrack((currentIndex-1+tracks.length)%tracks.length);
+    });
+    document.getElementById('nextBtn').addEventListener('click', ()=>{
+      if(tracks.length) playTrack((currentIndex+1)%tracks.length);
+    });
+    
+    // Render library
+    function renderLibrary() {
+      if(!tracks.length) return `<div style="padding:40px;text-align:center;color:#888;"><i class="fas fa-cloud-upload-alt" style="font-size:3rem;"></i><br>No tracks yet. Upload your music.</div>`;
+      let html = '<div class="track-grid">';
+      tracks.forEach((t,i)=>{
+        html += `<div class="track-card" data-index="${i}">
+          <div class="card-art"><i class="fas fa-music"></i></div>
+          <div class="track-title">${escape(t.title)}</div>
+          <div class="track-artist">${escape(t.artist)}</div>
+          <div class="card-footer">
+            <button class="play-card" data-play="${i}"><i class="fas fa-play"></i></button>
+            <button class="support-btn" data-support="${i}"><i class="fas fa-heart"></i> Support</button>
+          </div>
+        </div>`;
+      });
+      html+='</div>';
+      return html;
+    }
+    function escape(s){ return String(s).replace(/[&<>"]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]); }
+    
+    // Render dashboard
+    function renderDashboard() {
+      const hours = (listeningStats.totalSeconds/3600).toFixed(1);
+      const top = Object.entries(listeningStats.topArtists).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join(', ') || '—';
+      const favGenre = Object.entries(listeningStats.genres).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'Afrobeats';
+      return `
+        <div class="dashboard-grid">
+          <div class="stat-card"><i class="fas fa-clock" style="color:#00C2FF;"></i><div class="stat-value">${hours}h</div><div>Total listening</div></div>
+          <div class="stat-card"><i class="fas fa-user"></i><div class="stat-value">${Object.keys(listeningStats.topArtists).length}</div><div>Artists discovered</div></div>
+          <div class="stat-card"><i class="fas fa-chart-line"></i><div class="stat-value">${favGenre}</div><div>Top genre</div></div>
+        </div>
+        <div style="margin-top:30px;">
+          <h3 style="color:#00FF9C;">🧠 Top artists</h3>
+          <div style="background:#1b2530; border-radius:20px; padding:20px; margin-top:12px;">${top || 'Listen to more tracks'}</div>
+        </div>
+        <button class="insight-btn" id="generateInsightBtn"><i class="fas fa-file-alt"></i> Generate Weekly Insight Report</button>
+      `;
+    }
+    
+    function refreshView() {
+      if(currentView==='library') {
+        viewTitle.textContent = '🎧 Your Library';
+        contentArea.innerHTML = renderLibrary();
+        attachCardEvents();
+      } else {
+        viewTitle.textContent = '📊 Data Mode · insights';
+        contentArea.innerHTML = renderDashboard();
+        document.getElementById('generateInsightBtn')?.addEventListener('click', ()=>{
+          const report = `HanzWave Weekly: You've listened ${(listeningStats.totalSeconds/3600).toFixed(1)}h. Top artist: ${Object.entries(listeningStats.topArtists).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'various'}. Your mood: energetic. Keep streaming!`;
+          document.getElementById('insightText').innerText = report;
+          insightModal.style.display='flex';
+        });
+      }
+    }
+    
+    function attachCardEvents() {
+      document.querySelectorAll('[data-play]').forEach(b=> b.addEventListener('click', e=>{ e.stopPropagation(); playTrack(parseInt(b.dataset.play)); }));
+      document.querySelectorAll('[data-support]').forEach(b=> b.addEventListener('click', e=>{ e.stopPropagation(); showToast('💚 Supporting artist (demo)'); }));
+      document.querySelectorAll('.track-card').forEach(c=> c.addEventListener('click', e=>{ if(!e.target.closest('button')) playTrack(parseInt(c.dataset.index)); }));
+    }
+    
+    // Switch view
+    function setView(view) {
+      currentView = view;
+      tabs.forEach(t=> t.classList.toggle('active', t.dataset.tab===view));
+      navItems.forEach(n=> n.classList.toggle('active', n.dataset.view===view));
+      refreshView();
+    }
+    
+    tabs.forEach(t=> t.addEventListener('click', ()=> setView(t.dataset.tab)));
+    navItems.forEach(n=> n.addEventListener('click', ()=> { if(n.dataset.view) setView(n.dataset.view); }));
+    
+    // Upload
+    document.getElementById('topUploadBtn').addEventListener('click', ()=> uploadModal.style.display='flex');
+    document.getElementById('sidebarUploadBtn')?.addEventListener('click', ()=> uploadModal.style.display='flex');
+    document.getElementById('cancelModal').addEventListener('click', ()=> uploadModal.style.display='none');
+    document.getElementById('uploadConfirm').addEventListener('click', ()=>{
+      const title = document.getElementById('titleInp').value.trim();
+      const artist = document.getElementById('artistInp').value.trim() || 'Hanz Domingos';
+      const file = document.getElementById('fileInp').files[0];
+      if(!file || !title) { showToast('Title and file required'); return; }
+      const url = URL.createObjectURL(file);
+      tracks.push({ id:Date.now(), title, artist, url, file:null });
+      saveState();
+      uploadModal.style.display='none';
+      showToast(`✓ "${title}" uploaded`);
+      if(currentView==='library') refreshView(); else setView('library');
+      if(tracks.length===1) playTrack(0);
+    });
+    
+    document.getElementById('closeInsight').addEventListener('click', ()=> insightModal.style.display='none');
+    
+    // initial
+    setView('library');
+    updatePlayerUI();
+    
+    // founder touch
+    console.log('HanzWave · Hanz Domingos · feel the data, live the sound');
+  })();
 </script>
+<!-- Additional upload trigger from sidebar button (missing id fix) -->
+<script>document.getElementById('sidebarUploadBtn')?.addEventListener('click',()=>document.getElementById('uploadModal').style.display='flex');</script>
 </body>
 </html>
