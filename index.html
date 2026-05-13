@@ -1,717 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>HanzWave · feel the data, live the sound</title>
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0B0B0B;
-      color: #f0f0f5;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    h1, h2, h3, .logo, .section-header {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-    }
-    /* brand colors */
-    :root {
-      --deep-black: #0B0B0B;
-      --neon-green: #00FF9C;
-      --digital-blue: #00C2FF;
-      --card-bg: #15181e;
-      --sidebar-bg: #0D0F14;
-    }
-    /* layout */
-    .app {
-      display: flex;
-      flex: 1;
-      min-height: 0;
-    }
-    /* sidebar */
-    .sidebar {
-      width: 280px;
-      background: var(--sidebar-bg);
-      padding: 28px 16px;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid #22252c;
-    }
-    .logo-area {
-      margin-bottom: 36px;
-      padding-left: 8px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1.9rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #00FF9C, #00C2FF);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 12px #00C2FF40;
-    }
-    .logo i {
-      font-size: 2rem;
-      color: #00FF9C;
-      filter: drop-shadow(0 0 6px #00FF9C);
-    }
-    .founder-tag {
-      font-size: 0.75rem;
-      color: #888;
-      margin-top: 4px;
-      padding-left: 12px;
-      letter-spacing: 0.3px;
-    }
-    .nav-menu {
-      flex: 1;
-    }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 12px 16px;
-      margin: 4px 0;
-      border-radius: 14px;
-      color: #b0b0c8;
-      font-weight: 500;
-      transition: all 0.15s;
-      cursor: pointer;
-    }
-    .nav-item i {
-      width: 24px;
-      font-size: 1.2rem;
-    }
-    .nav-item.active {
-      background: #1F2530;
-      color: white;
-      border-left: 3px solid var(--neon-green);
-    }
-    .nav-item:hover:not(.active) {
-      background: #1A1E26;
-      color: #e0e0ff;
-    }
-    .slogan-side {
-      margin-top: 24px;
-      padding: 16px;
-      font-size: 0.8rem;
-      color: #00C2FF;
-      border-top: 1px solid #2a2e38;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    /* main */
-    .main-panel {
-      flex: 1;
-      background: #0B0B0B;
-      padding: 24px 32px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 28px;
-    }
-    .page-title {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #fff, #b0f0ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .avatar {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(145deg, #00C2FF, #00FF9C);
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #0B0B0B;
-    }
-    .upload-btn {
-      background: transparent;
-      border: 1.5px solid #00FF9C;
-      color: #00FF9C;
-      padding: 10px 22px;
-      border-radius: 40px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .upload-btn:hover {
-      background: #00FF9C20;
-      border-color: #00C2FF;
-      color: white;
-    }
-    /* tabs */
-    .view-tabs {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid #2a2e38;
-      padding-bottom: 8px;
-    }
-    .tab {
-      font-weight: 600;
-      padding: 8px 0;
-      color: #9a9ab0;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: 0.1s;
-    }
-    .tab.active {
-      color: white;
-      border-bottom: 3px solid #00FF9C;
-    }
-    /* library grid */
-    .track-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 22px;
-    }
-    .track-card {
-      background: #13171e;
-      border-radius: 20px;
-      padding: 16px 14px 14px;
-      border: 1px solid #252b36;
-      transition: 0.15s;
-      cursor: pointer;
-    }
-    .track-card:hover {
-      background: #1c212b;
-      border-color: #00C2FF60;
-    }
-    .card-art {
-      width: 100%;
-      aspect-ratio: 1/1;
-      background: linear-gradient(145deg, #1e2632, #0f131a);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-      color: #00FF9C;
-      font-size: 2.4rem;
-      box-shadow: 0 8px 0 #00000030;
-    }
-    .track-title {
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .track-artist {
-      font-size: 0.9rem;
-      color: #9aa0b0;
-    }
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 14px;
-    }
-    .play-card {
-      background: #00C2FF;
-      border: none;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      color: #0B0B0B;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    .support-btn {
-      background: transparent;
-      border: 1px solid #00FF9C;
-      color: #00FF9C;
-      border-radius: 30px;
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    /* data mode dashboard */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .stat-card {
-      background: #11161e;
-      border-radius: 24px;
-      padding: 22px;
-      border: 1px solid #2a3340;
-    }
-    .stat-value {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: #00FF9C;
-    }
-    .insight-btn {
-      background: #00C2FF20;
-      border: 1px solid #00C2FF;
-      color: #00C2FF;
-      padding: 14px 24px;
-      border-radius: 50px;
-      margin-top: 24px;
-      font-weight: 600;
-      cursor: pointer;
-      width: fit-content;
-    }
-    /* player bar */
-    .player-bar {
-      background: #0D1117;
-      border-top: 1px solid #1F2833;
-      padding: 12px 32px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      box-shadow: 0 -4px 20px #00000080;
-    }
-    .now-playing {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      width: 260px;
-    }
-    .np-art {
-      width: 54px;
-      height: 54px;
-      background: #1B232E;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #00FF9C;
-    }
-    .wave-visual {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      margin-left: 12px;
-    }
-    .wave-bar {
-      width: 4px;
-      height: 20px;
-      background: #00C2FF;
-      border-radius: 4px;
-      animation: wave 1.2s ease-in-out infinite;
-    }
-    @keyframes wave {
-      0%,100% { height: 12px; }
-      50% { height: 28px; background: #00FF9C; }
-    }
-    .player-controls {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .ctrl-buttons {
-      display: flex;
-      gap: 28px;
-    }
-    .ctrl-btn {
-      background: none;
-      border: none;
-      color: #ddd;
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
-    .play-pause {
-      background: white;
-      color: #0B0B0B;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-    .progress-area {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      width: 80%;
-    }
-    .seek-slider {
-      flex: 1;
-      height: 5px;
-      background: #2a3a4a;
-    }
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: #000000b0;
-      backdrop-filter: blur(6px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .modal {
-      background: #151e28;
-      border-radius: 32px;
-      padding: 32px;
-      width: 460px;
-      border: 1px solid #00C2FF40;
-    }
-    .toast {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #00C2FF;
-      color: #0B0B0B;
-      font-weight: 600;
-      padding: 12px 28px;
-      border-radius: 60px;
-      z-index: 2000;
-      opacity: 0;
-      transition: 0.2s;
-    }
-    .insight-modal-content {
-      color: #ddd;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Formação QuickBooks Online para CAM</title>
+<style>
+:root{
+  --bg1:#07111f; --bg2:#102d46; --card:rgba(255,255,255,.10); --card2:rgba(255,255,255,.16);
+  --text:#f7fbff; --muted:#c6d6e5; --gold:#ffd166; --cyan:#4dd9ff; --green:#60d394; --red:#ff6b6b;
+  --shadow: 0 28px 80px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:#07111f;color:var(--text);overflow:hidden}
+.deck{height:100vh;width:100vw;position:relative;background:
+  radial-gradient(circle at 15% 15%, rgba(77,217,255,.22), transparent 32%),
+  radial-gradient(circle at 85% 12%, rgba(255,209,102,.18), transparent 30%),
+  radial-gradient(circle at 70% 85%, rgba(96,211,148,.15), transparent 34%),
+  linear-gradient(135deg,var(--bg1),var(--bg2));}
+.slide{position:absolute;inset:0;padding:64px 78px;display:none;opacity:0;transform:translateX(26px);transition:.45s ease;overflow:hidden}
+.slide.active{display:flex;opacity:1;transform:translateX(0)}
+.slide.col{flex-direction:column;justify-content:center}.slide.split{gap:46px;align-items:center}.left,.right{flex:1}.kicker{font-size:20px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:800;margin-bottom:16px}.title{font-size:64px;line-height:1.02;margin:0 0 24px;font-weight:900;letter-spacing:-.04em}.subtitle{font-size:29px;line-height:1.35;color:var(--muted);max-width:900px}.h2{font-size:48px;line-height:1.08;margin:0 0 26px;font-weight:900;letter-spacing:-.03em}.body{font-size:26px;line-height:1.45;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);border-radius:999px;color:#fff;font-size:20px;font-weight:700}.grid{display:grid;gap:22px}.grid.two{grid-template-columns:repeat(2,1fr)}.grid.three{grid-template-columns:repeat(3,1fr)}.grid.four{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid rgba(255,255,255,.16);box-shadow:var(--shadow);border-radius:30px;padding:28px;backdrop-filter:blur(18px)}.card strong{color:#fff}.icon{font-size:50px;margin-bottom:14px}.card h3{font-size:29px;margin:0 0 12px}.card p,.card li{font-size:22px;line-height:1.35;color:var(--muted);margin:0}.big-num{font-size:58px;font-weight:900;color:var(--gold);line-height:1}.pill{display:inline-block;padding:9px 15px;border-radius:99px;background:rgba(77,217,255,.15);color:#dff8ff;font-weight:800;font-size:18px;margin:5px}.list{display:grid;gap:14px}.li{display:flex;gap:16px;align-items:flex-start;font-size:25px;color:var(--muted)}.check{color:var(--green);font-weight:900}.warn{color:var(--gold);font-weight:900}.diagram{position:relative;min-height:350px}.flow{display:flex;align-items:center;justify-content:space-between;gap:12px}.node{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:26px;padding:24px;text-align:center;min-height:132px;display:flex;flex-direction:column;justify-content:center;flex:1}.node b{font-size:25px}.node span{font-size:20px;color:var(--muted);margin-top:8px}.arrow{font-size:38px;color:var(--gold);font-weight:900}.mini-table{width:100%;border-collapse:collapse;font-size:22px;overflow:hidden;border-radius:20px}.mini-table th,.mini-table td{padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.12);text-align:left}.mini-table th{color:#fff;background:rgba(255,255,255,.12)}.footer{position:absolute;bottom:28px;left:78px;right:78px;display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.70);font-size:16px}.controls{position:fixed;right:28px;bottom:26px;display:flex;gap:12px;z-index:20}.controls button{border:0;padding:14px 18px;border-radius:999px;background:rgba(255,255,255,.15);color:#fff;font-weight:800;font-size:16px;cursor:pointer;backdrop-filter:blur(12px)}.controls button:hover{background:rgba(255,255,255,.26)}.progress{position:fixed;left:0;bottom:0;height:7px;background:linear-gradient(90deg,var(--cyan),var(--gold));width:0%;z-index:30;transition:.25s}.slideNo{font-weight:800}.quote{font-size:42px;line-height:1.18;font-weight:850;letter-spacing:-.02em}.accent{color:var(--gold)}.phone{font-size:130px;filter:drop-shadow(0 25px 50px rgba(0,0,0,.35))}.circle{width:330px;height:330px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle, rgba(77,217,255,.28), rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.18);box-shadow:var(--shadow);margin:auto}.formula{font-size:44px;font-weight:900;text-align:center;padding:34px;background:rgba(255,209,102,.13);border:1px solid rgba(255,209,102,.35);border-radius:28px}.small{font-size:20px;color:var(--muted)}
+@media(max-width:900px){.slide{padding:42px 26px}.slide.active{display:block;overflow:auto}.title{font-size:43px}.h2{font-size:36px}.subtitle,.body{font-size:22px}.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.footer{left:26px;right:26px}.controls{right:12px;bottom:12px}.controls button{padding:10px 12px}.card h3{font-size:25px}.card p,.card li{font-size:20px}}
+@media print{body{overflow:auto}.deck{height:auto}.slide{position:relative;display:flex!important;opacity:1!important;transform:none!important;height:100vh;page-break-after:always}.controls,.progress{display:none}}
+</style>
 </head>
 <body>
+<div class="deck">
+  <section class="slide col active">
+    <div class="kicker">Formação Profissional</div>
+    <h1 class="title">QuickBooks Online para a CAM</h1>
+    <p class="subtitle">Do zero ao domínio operacional: configurar, registar, controlar, reconciliar e interpretar dados financeiros de uma escola.</p>
+    <div style="margin-top:34px"><span class="badge">🏫 Christian Academy in Mozambique</span> <span class="badge">💼 Equipa de Finanças</span></div>
+    <div class="footer"><span>Formador: __________________</span><span class="slideNo"></span></div>
+  </section>
 
-<!-- Toast -->
-<div id="toast" class="toast">✓ Action completed</div>
+  <section class="slide split">
+    <div class="left"><div class="kicker">Propósito</div><h2 class="h2">A formação não é só sobre software.</h2><p class="body">É sobre criar uma rotina financeira segura, organizada e transparente para apoiar a direcção da escola.</p></div>
+    <div class="right circle"><div class="phone">📊</div></div>
+    <div class="footer"><span>Mensagem principal: dados bons geram decisões boas.</span><span class="slideNo"></span></div>
+  </section>
 
-<!-- Upload Modal -->
-<div class="modal-overlay" id="uploadModal">
-  <div class="modal">
-    <h2 style="color:#00FF9C; margin-bottom:24px;"><i class="fas fa-cloud-upload-alt"></i> Upload your sound</h2>
-    <div style="margin-bottom:20px"><label>Title</label><input id="titleInp" style="width:100%; padding:14px; background:#0f1a24; border:1px solid #2a4a5a; border-radius:16px; color:white;" placeholder="Afro wave"></div>
-    <div style="margin-bottom:20px"><label>Artist</label><input id="artistInp" style="width:100%; padding:14px; background:#0f1a24; border:1px solid #2a4a5a; border-radius:16px; color:white;" placeholder="Hanz Domingos"></div>
-    <div style="margin-bottom:28px"><label>Audio</label><input type="file" id="fileInp" accept="audio/*" style="color:white;"></div>
-    <div style="display:flex; gap:12px;">
-      <button id="cancelModal" style="flex:1; padding:14px; background:#2a3a4a; border:none; border-radius:40px; color:white;">Cancel</button>
-      <button id="uploadConfirm" style="flex:1; padding:14px; background:#00C2FF; border:none; border-radius:40px; font-weight:700;">Upload</button>
-    </div>
-  </div>
+  <section class="slide col">
+    <div class="kicker">Objectivos</div><h2 class="h2">No fim, cada participante deverá conseguir:</h2>
+    <div class="grid three">
+      <div class="card"><div class="icon">🧭</div><h3>Navegar sem medo</h3><p>Entrar no QuickBooks, encontrar menus e executar tarefas básicas.</p></div>
+      <div class="card"><div class="icon">🧾</div><h3>Registar correctamente</h3><p>Propinas, matrículas, doações, despesas, fornecedores e comprovativos.</p></div>
+      <div class="card"><div class="icon">✅</div><h3>Fechar o mês</h3><p>Reconciliar banco/caixa, gerar relatórios e preparar prestação de contas.</p></div>
+    </div><div class="footer"><span>Baseado no manual completo da formação CAM.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Agenda</div><h2 class="h2">Percurso recomendado: 8 semanas</h2>
+    <div class="grid four">
+      <div class="card"><div class="big-num">1</div><p>Contabilidade + QuickBooks</p></div>
+      <div class="card"><div class="big-num">2</div><p>Configuração da empresa</p></div>
+      <div class="card"><div class="big-num">3</div><p>Plano de contas</p></div>
+      <div class="card"><div class="big-num">4</div><p>Receitas escolares</p></div>
+      <div class="card"><div class="big-num">5</div><p>Despesas e fornecedores</p></div>
+      <div class="card"><div class="big-num">6</div><p>Banco, caixa e reconciliação</p></div>
+      <div class="card"><div class="big-num">7</div><p>Relatórios financeiros</p></div>
+      <div class="card"><div class="big-num">8</div><p>Simulação e avaliação</p></div>
+    </div><div class="footer"><span>Estrutura progressiva: aprender → praticar → controlar.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide split">
+    <div class="left"><div class="kicker">Contabilidade do zero</div><h2 class="h2">As 5 palavras que sustentam tudo</h2><div class="list"><div class="li"><span class="check">●</span>Activos: o que a escola tem</div><div class="li"><span class="check">●</span>Passivos: o que a escola deve</div><div class="li"><span class="check">●</span>Património: diferença entre ter e dever</div><div class="li"><span class="check">●</span>Receitas: valor que entra</div><div class="li"><span class="check">●</span>Despesas: gastos para funcionar</div></div></div>
+    <div class="right"><div class="formula">Activos − Passivos<br><span class="accent">= Património</span></div></div>
+    <div class="footer"><span>Contabilidade responde: entrou, saiu, deve, tem e faz sentido?</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Regime de caixa vs. acréscimo</div><h2 class="h2">Para uma escola, controlar dívida é essencial.</h2>
+    <div class="grid two">
+      <div class="card"><div class="icon">💵</div><h3>Regime de caixa</h3><p>A receita só aparece quando o dinheiro entra. Simples para caixa, fraco para controlar propinas em dívida.</p></div>
+      <div class="card"><div class="icon">📅</div><h3>Regime de acréscimo</h3><p>A receita é reconhecida quando é devida. Melhor para facturas, dívidas, relatórios mensais e gestão escolar.</p></div>
+    </div><div class="footer"><span>Recomendação CAM: lógica próxima do acréscimo, sem perder controlo diário de caixa e banco.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide split">
+    <div class="left"><div class="kicker">QuickBooks Online</div><h2 class="h2">Um único lugar para organizar o ciclo financeiro.</h2><p class="body">Receitas, despesas, bancos, facturas, fornecedores, comprovativos e relatórios passam a viver num sistema centralizado.</p></div>
+    <div class="right grid two">
+      <div class="card"><h3>☁️ Online</h3><p>Acesso em computadores autorizados.</p></div><div class="card"><h3>📎 Arquivo</h3><p>Anexar comprovativos às transacções.</p></div><div class="card"><h3>🔐 Segurança</h3><p>Utilizadores e permissões separadas.</p></div><div class="card"><h3>📈 Relatórios</h3><p>Demonstrações automáticas para decisão.</p></div>
+    </div><div class="footer"><span>O sistema ajuda, mas a qualidade depende dos dados introduzidos.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Separação de funções</div><h2 class="h2">Quem regista não deve ser a única pessoa a aprovar.</h2>
+    <div class="grid two">
+      <div class="card"><div class="icon">✍️</div><h3>Pessoa 1 — Operador financeiro</h3><p>Regista receitas/despesas, cria clientes e fornecedores, anexa documentos e prepara relatórios preliminares.</p></div>
+      <div class="card"><div class="icon">🔎</div><h3>Pessoa 2 — Revisor financeiro</h3><p>Revê lançamentos, aprova categorias, faz reconciliação, corrige erros e prepara informação para direcção.</p></div>
+    </div><div class="footer"><span>Controlo interno protege a escola e protege os funcionários.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Antes de começar</div><h2 class="h2">Dados necessários para configurar a CAM</h2>
+    <div class="grid three">
+      <div class="card"><h3>🏫 Instituição</h3><p>Nome legal, endereço, NUIT, contactos, e-mail institucional, logótipo.</p></div>
+      <div class="card"><h3>💰 Finanças</h3><p>Moeda principal, ano financeiro, contas bancárias, receitas, despesas e saldos iniciais.</p></div>
+      <div class="card"><h3>👥 Pessoas</h3><p>Lista de alunos/encarregados, fornecedores e utilizadores com permissões.</p></div>
+    </div><div class="footer"><span>Atenção: definir moeda correctamente antes de usar dados reais.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Plano de contas</div><h2 class="h2">A espinha dorsal dos relatórios.</h2>
+    <table class="mini-table"><tr><th>Grupo</th><th>Exemplos para CAM</th></tr><tr><td>Activos</td><td>Banco, caixa pequena, contas a receber, equipamento, mobiliário</td></tr><tr><td>Passivos</td><td>Fornecedores, salários, impostos, adiantamentos</td></tr><tr><td>Receitas</td><td>Propinas, matrículas, transporte, cantina, uniformes, doações</td></tr><tr><td>Despesas</td><td>Salários, energia, água, internet, manutenção, segurança, material escolar</td></tr></table>
+    <div class="footer"><span>Regra: se a conta estiver errada, o relatório sairá errado.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide split">
+    <div class="left"><div class="kicker">Classes, localizações e projectos</div><h2 class="h2">Separar para entender melhor.</h2><p class="body">A conta diz o tipo de receita/despesa. A classe diz a área. O projecto diz a iniciativa específica.</p></div>
+    <div class="right card"><div class="flow"><div class="node"><b>Conta</b><span>O quê?</span></div><div class="arrow">→</div><div class="node"><b>Classe</b><span>Que área?</span></div><div class="arrow">→</div><div class="node"><b>Projecto</b><span>Que iniciativa?</span></div></div><p class="small" style="margin-top:24px">Ex.: Internet e Comunicações → Administração → Operação Mensal.</p></div>
+    <div class="footer"><span>Exemplos de classes: Primária, Secundária, Administração, Transporte, Cantina, Bolsas.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Receitas escolares</div><h2 class="h2">Fluxo correcto de propinas</h2>
+    <div class="flow"><div class="node"><b>1. Cliente</b><span>Aluno ou encarregado</span></div><div class="arrow">→</div><div class="node"><b>2. Produto</b><span>Propina mensal</span></div><div class="arrow">→</div><div class="node"><b>3. Invoice</b><span>Factura emitida</span></div><div class="arrow">→</div><div class="node"><b>4. Payment</b><span>Pagamento recebido</span></div><div class="arrow">→</div><div class="node"><b>5. Banco</b><span>Depósito e reconciliação</span></div></div>
+    <div class="footer"><span>Invoice = dívida criada. Sales Receipt = pagamento imediato. Receive Payment = pagamento de factura existente.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Exemplo prático</div><h2 class="h2">Emitir propina mensal</h2>
+    <div class="grid two"><div class="card"><h3>Cenário</h3><p>Aluna: Ana Mucavele<br>Classe: Grade 5<br>Mês: Maio 2026<br>Valor: 15.000 MT</p></div><div class="card"><h3>Passos</h3><p>Sales → Customers → Ana → Invoice → Produto: Propina Mensal → Descrição → Valor → Termo de pagamento → Guardar.</p></div></div>
+    <div class="footer"><span>Objectivo: deixar claro quanto foi facturado, pago e ainda em dívida.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Despesas e fornecedores</div><h2 class="h2">Usar o tipo certo evita duplicações.</h2>
+    <div class="grid three"><div class="card"><div class="icon">💳</div><h3>Expense</h3><p>Despesa paga imediatamente. Ex.: combustível ou material de limpeza em numerário.</p></div><div class="card"><div class="icon">📄</div><h3>Bill</h3><p>Factura recebida agora, pagamento depois. Ex.: internet com vencimento futuro.</p></div><div class="card"><div class="icon">✅</div><h3>Bill Payment</h3><p>Pagamento de uma Bill já registada. Não lançar de novo como Expense.</p></div></div>
+    <div class="footer"><span>Fornecedor é “a quem pagamos”. Categoria é “porquê pagamos”.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Banco e caixa</div><h2 class="h2">Movimentos financeiros precisam de rasto.</h2>
+    <div class="grid two"><div class="card"><h3>🏦 Banco</h3><p>Obter extracto mensal, importar/lançar movimentos, classificar, anexar comprovativos e reconciliar.</p></div><div class="card"><h3>💼 Caixa pequena</h3><p>Definir limite, exigir recibo, contar semanalmente e reconciliar no fim do mês.</p></div></div>
+    <div class="footer"><span>Transferência banco → caixa deve ser lançada como Transfer, não como despesa.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Reconciliação</div><h2 class="h2">O objectivo é uma diferença igual a zero.</h2>
+    <div class="flow"><div class="node"><b>Extracto</b><span>Saldo final e data</span></div><div class="arrow">→</div><div class="node"><b>QuickBooks</b><span>Transacções registadas</span></div><div class="arrow">→</div><div class="node"><b>Comparar</b><span>Marcar o que aparece no banco</span></div><div class="arrow">→</div><div class="node"><b>Investigar</b><span>Diferenças e duplicações</span></div><div class="arrow">→</div><div class="node"><b>Finalizar</b><span>Diferença zero</span></div></div>
+    <div class="footer"><span>Nunca forçar reconciliação com ajuste sem investigar.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Relatórios essenciais</div><h2 class="h2">Relatórios que a direcção precisa entender</h2>
+    <div class="grid three"><div class="card"><h3>📊 Profit and Loss</h3><p>Receitas menos despesas. Mostra excedente ou défice.</p></div><div class="card"><h3>⚖️ Balance Sheet</h3><p>Activos, passivos e património. Mostra posição financeira.</p></div><div class="card"><h3>💧 Cash Flow</h3><p>Entradas e saídas de dinheiro. Mostra liquidez.</p></div><div class="card"><h3>👨‍👩‍👧 Receivables</h3><p>Quem ainda deve propinas ou outros serviços.</p></div><div class="card"><h3>🏢 Payables</h3><p>O que a escola ainda deve a fornecedores.</p></div><div class="card"><h3>🎯 Projectos</h3><p>Receitas e despesas por área ou doação restrita.</p></div></div>
+    <div class="footer"><span>Relatório bom deve ser simples de explicar em linguagem de gestão.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Rotina financeira</div><h2 class="h2">Disciplina transforma o sistema em controlo.</h2>
+    <div class="grid three"><div class="card"><div class="big-num">Diária</div><p>Registar receitas/despesas, anexar documentos, actualizar devedores e conferir caixa.</p></div><div class="card"><div class="big-num">Semanal</div><p>Rever lançamentos, comprovativos, caixa pequena, propinas em atraso e contas a pagar.</p></div><div class="card"><div class="big-num">Mensal</div><p>Reconciliar banco/caixa, gerar relatórios, rever dívidas e fechar o mês.</p></div></div>
+    <div class="footer"><span>O melhor sistema falha sem rotina.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Fecho mensal</div><h2 class="h2">Checklist antes de fechar o mês</h2>
+    <div class="grid two"><div class="card"><div class="list"><div class="li"><span class="check">✓</span>Todas as facturas emitidas</div><div class="li"><span class="check">✓</span>Todos os pagamentos registados</div><div class="li"><span class="check">✓</span>Despesas com comprovativos</div><div class="li"><span class="check">✓</span>Bills lançadas e revistas</div><div class="li"><span class="check">✓</span>Banco e caixa reconciliados</div></div></div><div class="card"><div class="list"><div class="li"><span class="check">✓</span>Dívidas de alunos revistas</div><div class="li"><span class="check">✓</span>Dívidas a fornecedores revistas</div><div class="li"><span class="check">✓</span>Relatórios exportados</div><div class="li"><span class="check">✓</span>Direcção informada</div><div class="li"><span class="check">✓</span>Mês fechado com controlo</div></div></div></div>
+    <div class="footer"><span>Fechar o mês não é correr; é confirmar.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Actividade prática</div><h2 class="h2">Simulação: um mês escolar completo</h2>
+    <div class="grid two"><div class="card"><h3>Dados iniciais</h3><p>Banco: 200.000 MT<br>Caixa pequena: 10.000 MT<br>Propinas esperadas: 300.000 MT<br>Despesas previstas: 220.000 MT</p></div><div class="card"><h3>Tarefas</h3><p>Emitir facturas, receber pagamentos, lançar despesas, registar doação, reconciliar banco/caixa e apresentar relatórios à direcção.</p></div></div>
+    <div class="footer"><span>Meta: responder quanto foi facturado, recebido, gasto e ainda em dívida.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Erros comuns</div><h2 class="h2">O que mais compromete os relatórios</h2>
+    <div class="grid three"><div class="card"><h3>⚠️ Duplicar despesa</h3><p>Lançar Bill e depois Expense para a mesma factura.</p></div><div class="card"><h3>⚠️ Conta errada</h3><p>Usar categoria incorrecta ou “Outras despesas” para tudo.</p></div><div class="card"><h3>⚠️ Sem comprovativo</h3><p>Transacção sem documento de suporte.</p></div><div class="card"><h3>⚠️ Caixa vs. banco</h3><p>Usar a conta de pagamento errada.</p></div><div class="card"><h3>⚠️ Reconciliar com diferença</h3><p>Finalizar sem investigar.</p></div><div class="card"><h3>⚠️ Duplicar fornecedores</h3><p>Nomes diferentes para a mesma entidade.</p></div></div>
+    <div class="footer"><span>Automatizar erro é pior do que lançar manualmente.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Avaliação</div><h2 class="h2">Critério de prontidão operacional</h2>
+    <div class="grid four"><div class="card"><div class="big-num">1</div><h3>Básico</h3><p>Criar clientes, fornecedores, despesas e facturas simples.</p></div><div class="card"><div class="big-num">2</div><h3>Intermédio</h3><p>Receber pagamentos, lançar bills, anexar comprovativos e gerar relatórios.</p></div><div class="card"><div class="big-num">3</div><h3>Operacional</h3><p>Controlar propinas, banco, caixa e fornecedores.</p></div><div class="card"><div class="big-num">4</div><h3>Avançado</h3><p>Reconciliar, analisar relatórios, fechar mês e apoiar auditoria.</p></div></div>
+    <div class="footer"><span>Aprovação: executar pelo menos 80% das tarefas sem ajuda directa.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide col">
+    <div class="kicker">Implementação real</div><h2 class="h2">Da formação para a produção</h2>
+    <div class="flow"><div class="node"><b>Preparação</b><span>Plano, responsáveis, saldos</span></div><div class="arrow">→</div><div class="node"><b>Configuração</b><span>Empresa, moeda, contas</span></div><div class="arrow">→</div><div class="node"><b>Teste</b><span>Dados fictícios</span></div><div class="arrow">→</div><div class="node"><b>Produção</b><span>Transacções reais</span></div><div class="arrow">→</div><div class="node"><b>Estabilização</b><span>Rotina mensal</span></div></div>
+    <div class="footer"><span>Conformidade legal deve ser confirmada por profissional competente.</span><span class="slideNo"></span></div>
+  </section>
+
+  <section class="slide split">
+    <div class="left"><div class="kicker">Conclusão</div><h2 class="h2">Dominar QuickBooks começa por fazer perguntas simples.</h2><p class="quote">Quem pagou? Quem deve? A quem pagámos? Por que pagámos? O banco confirma? O relatório faz sentido?</p></div>
+    <div class="right circle"><div class="phone">🎓</div></div>
+    <div class="footer"><span>Perguntas & respostas</span><span class="slideNo"></span></div>
+  </section>
 </div>
-
-<!-- Weekly Insight Modal -->
-<div class="modal-overlay" id="insightModal">
-  <div class="modal insight-modal-content">
-    <h2 style="color:#00FF9C;">📊 Weekly Insight Report</h2>
-    <div style="margin:24px 0;" id="insightText">Loading your listening DNA...</div>
-    <button id="closeInsight" style="background:#00C2FF; border:none; padding:14px 28px; border-radius:40px; font-weight:700;">Close</button>
-  </div>
-</div>
-
-<div class="app">
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo-area">
-      <div class="logo">
-        <i class="fas fa-wave-square"></i> HanzWave
-      </div>
-      <div class="founder-tag">by Hanz Domingos · feel the data, live the sound</div>
-    </div>
-    <div class="nav-menu">
-      <div class="nav-item active" data-view="library"><i class="fas fa-home"></i> Home</div>
-      <div class="nav-item" data-view="library"><i class="fas fa-compact-disc"></i> Library</div>
-      <div class="nav-item" data-view="data"><i class="fas fa-chart-pie"></i> Data Mode 🔥</div>
-      <div class="nav-item"><i class="fas fa-search"></i> Search</div>
-      <div class="nav-item"><i class="fas fa-user-circle"></i> Profile</div>
-    </div>
-    <div class="slogan-side">
-      <i class="fas fa-map-pin"></i> Maputo · Africa<br>
-      <span style="color:#888;">Intelligent listening</span>
-    </div>
-  </div>
-
-  <!-- Main Panel -->
-  <div class="main-panel">
-    <div class="top-bar">
-      <span class="page-title" id="viewTitle">🎧 Your Library</span>
-      <div class="user-profile">
-        <button class="upload-btn" id="topUploadBtn"><i class="fas fa-plus-circle"></i> Upload</button>
-        <div class="avatar">HD</div>
-      </div>
-    </div>
-    <!-- Tabs (dynamic) -->
-    <div class="view-tabs" id="viewTabs">
-      <div class="tab active" data-tab="library">🎵 Library</div>
-      <div class="tab" data-tab="data">📊 Data Dashboard</div>
-    </div>
-    <!-- Dynamic content container -->
-    <div id="contentArea"></div>
-  </div>
-</div>
-
-<!-- Player Bar -->
-<div class="player-bar">
-  <div class="now-playing">
-    <div class="np-art" id="npArt"><i class="fas fa-music"></i></div>
-    <div>
-      <div id="npTitle" style="font-weight:600;">Not playing</div>
-      <div id="npArtist" style="font-size:0.85rem; color:#aaa;">—</div>
-    </div>
-    <div class="wave-visual" id="waveVisual">
-      <div class="wave-bar" style="animation-delay:0s"></div><div class="wave-bar" style="animation-delay:0.2s"></div><div class="wave-bar" style="animation-delay:0.4s"></div><div class="wave-bar" style="animation-delay:0.1s"></div><div class="wave-bar" style="animation-delay:0.3s"></div>
-    </div>
-  </div>
-  <div class="player-controls">
-    <div class="ctrl-buttons">
-      <button class="ctrl-btn" id="shuffleBtn"><i class="fas fa-random"></i></button>
-      <button class="ctrl-btn" id="prevBtn"><i class="fas fa-step-backward"></i></button>
-      <button class="ctrl-btn play-pause" id="playPauseBtn"><i class="fas fa-play"></i></button>
-      <button class="ctrl-btn" id="nextBtn"><i class="fas fa-step-forward"></i></button>
-      <button class="ctrl-btn" id="repeatBtn"><i class="fas fa-redo-alt"></i></button>
-    </div>
-    <div class="progress-area">
-      <span id="currentTime">0:00</span>
-      <input type="range" class="seek-slider" id="seekSlider" min="0" max="100" value="0" step="0.1">
-      <span id="durationTime">0:00</span>
-    </div>
-  </div>
-  <div style="display:flex; gap:12px;">
-    <i class="fas fa-volume-up" style="color:#00C2FF;"></i>
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" style="width:80px;">
-  </div>
-</div>
-
+<div class="controls"><button onclick="prevSlide()">← Anterior</button><button onclick="nextSlide()">Próximo →</button></div>
+<div class="progress" id="progress"></div>
 <script>
-  (function(){
-    // ----- STATE -----
-    let tracks = []; // { id, title, artist, file, url }
-    let currentIndex = -1;
-    let audio = new Audio();
-    let isPlaying = false;
-    let listeningStats = {
-      totalSeconds: 0,
-      topArtists: {},
-      genres: { 'Afrobeats': 45, 'Amapiano': 30, 'Hip-Hop': 20, 'R&B': 5 }
-    };
-    
-    // Load from localStorage
-    try {
-      const saved = localStorage.getItem('hanzwave_tracks');
-      if(saved) {
-        const parsed = JSON.parse(saved);
-        tracks = parsed.map(t => ({...t, url: t.url, file: null}));
-      }
-      const stats = localStorage.getItem('hanzwave_stats');
-      if(stats) listeningStats = JSON.parse(stats);
-    } catch(e){}
-    
-    // DOM elements
-    const contentArea = document.getElementById('contentArea');
-    const viewTitle = document.getElementById('viewTitle');
-    const tabs = document.querySelectorAll('.tab');
-    const navItems = document.querySelectorAll('.nav-item[data-view]');
-    let currentView = 'library'; // library or data
-    
-    const npTitle = document.getElementById('npTitle'), npArtist = document.getElementById('npArtist'), npArt = document.getElementById('npArt');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const seekSlider = document.getElementById('seekSlider');
-    const currentTimeSpan = document.getElementById('currentTime');
-    const durationSpan = document.getElementById('durationTime');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const waveVisual = document.getElementById('waveVisual');
-    
-    const uploadModal = document.getElementById('uploadModal');
-    const insightModal = document.getElementById('insightModal');
-    const toast = document.getElementById('toast');
-    
-    // helper
-    function formatTime(s) { if(isNaN(s)) return '0:00'; const m=Math.floor(s/60); const sec=Math.floor(s%60); return `${m}:${sec.toString().padStart(2,'0')}`; }
-    function showToast(msg) { toast.textContent=msg; toast.style.opacity=1; setTimeout(()=>toast.style.opacity=0,2000); }
-    function saveState() {
-      localStorage.setItem('hanzwave_tracks', JSON.stringify(tracks.map(t=>({...t, url:t.url, file:null}))));
-      localStorage.setItem('hanzwave_stats', JSON.stringify(listeningStats));
-    }
-    
-    // Update player UI
-    function updatePlayerUI() {
-      if(currentIndex>=0 && tracks[currentIndex]) {
-        const t = tracks[currentIndex];
-        npTitle.textContent = t.title; npArtist.textContent = t.artist;
-        npArt.innerHTML = '<i class="fas fa-music"></i>';
-      } else {
-        npTitle.textContent = 'Not playing'; npArtist.textContent = '—';
-      }
-    }
-    
-    // Play track
-    function playTrack(index) {
-      if(index<0||index>=tracks.length) return;
-      if(currentIndex===index) {
-        if(audio.paused) { audio.play(); isPlaying=true; playPauseBtn.innerHTML='<i class="fas fa-pause"></i>'; }
-        else { audio.pause(); isPlaying=false; playPauseBtn.innerHTML='<i class="fas fa-play"></i>'; }
-        return;
-      }
-      currentIndex = index;
-      audio.src = tracks[index].url;
-      audio.volume = volumeSlider.value;
-      audio.play().then(()=>{ isPlaying=true; playPauseBtn.innerHTML='<i class="fas fa-pause"></i>'; }).catch(e=>console.warn);
-      updatePlayerUI();
-      // start tracking time
-    }
-    
-    // Audio events
-    audio.addEventListener('timeupdate', ()=>{
-      seekSlider.value = audio.currentTime;
-      currentTimeSpan.textContent = formatTime(audio.currentTime);
-      // simulate listening time accumulation
-      if(!audio.paused) {
-        listeningStats.totalSeconds += 0.1; // approx
-        if(listeningStats.totalSeconds > 3600*100) listeningStats.totalSeconds = 3600*100;
-        // increment top artist
-        if(currentIndex>=0) {
-          const art = tracks[currentIndex].artist;
-          listeningStats.topArtists[art] = (listeningStats.topArtists[art]||0)+0.05;
-        }
-        saveState();
-      }
-    });
-    audio.addEventListener('loadedmetadata', ()=>{ durationSpan.textContent=formatTime(audio.duration); seekSlider.max=audio.duration; });
-    audio.addEventListener('ended', ()=>{ if(tracks.length) playTrack((currentIndex+1)%tracks.length); });
-    audio.addEventListener('play', ()=>{ playPauseBtn.innerHTML='<i class="fas fa-pause"></i>'; waveVisual.style.opacity=1; });
-    audio.addEventListener('pause', ()=>{ playPauseBtn.innerHTML='<i class="fas fa-play"></i>'; });
-    
-    seekSlider.addEventListener('input', (e)=> { if(audio.src) audio.currentTime = e.target.value; });
-    volumeSlider.addEventListener('input', (e)=> audio.volume = e.target.value);
-    playPauseBtn.addEventListener('click', ()=>{
-      if(tracks.length && currentIndex===-1) playTrack(0);
-      else if(currentIndex>=0) {
-        if(audio.paused) audio.play(); else audio.pause();
-      }
-    });
-    document.getElementById('prevBtn').addEventListener('click', ()=>{
-      if(tracks.length) playTrack((currentIndex-1+tracks.length)%tracks.length);
-    });
-    document.getElementById('nextBtn').addEventListener('click', ()=>{
-      if(tracks.length) playTrack((currentIndex+1)%tracks.length);
-    });
-    
-    // Render library
-    function renderLibrary() {
-      if(!tracks.length) return `<div style="padding:40px;text-align:center;color:#888;"><i class="fas fa-cloud-upload-alt" style="font-size:3rem;"></i><br>No tracks yet. Upload your music.</div>`;
-      let html = '<div class="track-grid">';
-      tracks.forEach((t,i)=>{
-        html += `<div class="track-card" data-index="${i}">
-          <div class="card-art"><i class="fas fa-music"></i></div>
-          <div class="track-title">${escape(t.title)}</div>
-          <div class="track-artist">${escape(t.artist)}</div>
-          <div class="card-footer">
-            <button class="play-card" data-play="${i}"><i class="fas fa-play"></i></button>
-            <button class="support-btn" data-support="${i}"><i class="fas fa-heart"></i> Support</button>
-          </div>
-        </div>`;
-      });
-      html+='</div>';
-      return html;
-    }
-    function escape(s){ return String(s).replace(/[&<>"]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]); }
-    
-    // Render dashboard
-    function renderDashboard() {
-      const hours = (listeningStats.totalSeconds/3600).toFixed(1);
-      const top = Object.entries(listeningStats.topArtists).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]).join(', ') || '—';
-      const favGenre = Object.entries(listeningStats.genres).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'Afrobeats';
-      return `
-        <div class="dashboard-grid">
-          <div class="stat-card"><i class="fas fa-clock" style="color:#00C2FF;"></i><div class="stat-value">${hours}h</div><div>Total listening</div></div>
-          <div class="stat-card"><i class="fas fa-user"></i><div class="stat-value">${Object.keys(listeningStats.topArtists).length}</div><div>Artists discovered</div></div>
-          <div class="stat-card"><i class="fas fa-chart-line"></i><div class="stat-value">${favGenre}</div><div>Top genre</div></div>
-        </div>
-        <div style="margin-top:30px;">
-          <h3 style="color:#00FF9C;">🧠 Top artists</h3>
-          <div style="background:#1b2530; border-radius:20px; padding:20px; margin-top:12px;">${top || 'Listen to more tracks'}</div>
-        </div>
-        <button class="insight-btn" id="generateInsightBtn"><i class="fas fa-file-alt"></i> Generate Weekly Insight Report</button>
-      `;
-    }
-    
-    function refreshView() {
-      if(currentView==='library') {
-        viewTitle.textContent = '🎧 Your Library';
-        contentArea.innerHTML = renderLibrary();
-        attachCardEvents();
-      } else {
-        viewTitle.textContent = '📊 Data Mode · insights';
-        contentArea.innerHTML = renderDashboard();
-        document.getElementById('generateInsightBtn')?.addEventListener('click', ()=>{
-          const report = `HanzWave Weekly: You've listened ${(listeningStats.totalSeconds/3600).toFixed(1)}h. Top artist: ${Object.entries(listeningStats.topArtists).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'various'}. Your mood: energetic. Keep streaming!`;
-          document.getElementById('insightText').innerText = report;
-          insightModal.style.display='flex';
-        });
-      }
-    }
-    
-    function attachCardEvents() {
-      document.querySelectorAll('[data-play]').forEach(b=> b.addEventListener('click', e=>{ e.stopPropagation(); playTrack(parseInt(b.dataset.play)); }));
-      document.querySelectorAll('[data-support]').forEach(b=> b.addEventListener('click', e=>{ e.stopPropagation(); showToast('💚 Supporting artist (demo)'); }));
-      document.querySelectorAll('.track-card').forEach(c=> c.addEventListener('click', e=>{ if(!e.target.closest('button')) playTrack(parseInt(c.dataset.index)); }));
-    }
-    
-    // Switch view
-    function setView(view) {
-      currentView = view;
-      tabs.forEach(t=> t.classList.toggle('active', t.dataset.tab===view));
-      navItems.forEach(n=> n.classList.toggle('active', n.dataset.view===view));
-      refreshView();
-    }
-    
-    tabs.forEach(t=> t.addEventListener('click', ()=> setView(t.dataset.tab)));
-    navItems.forEach(n=> n.addEventListener('click', ()=> { if(n.dataset.view) setView(n.dataset.view); }));
-    
-    // Upload
-    document.getElementById('topUploadBtn').addEventListener('click', ()=> uploadModal.style.display='flex');
-    document.getElementById('sidebarUploadBtn')?.addEventListener('click', ()=> uploadModal.style.display='flex');
-    document.getElementById('cancelModal').addEventListener('click', ()=> uploadModal.style.display='none');
-    document.getElementById('uploadConfirm').addEventListener('click', ()=>{
-      const title = document.getElementById('titleInp').value.trim();
-      const artist = document.getElementById('artistInp').value.trim() || 'Hanz Domingos';
-      const file = document.getElementById('fileInp').files[0];
-      if(!file || !title) { showToast('Title and file required'); return; }
-      const url = URL.createObjectURL(file);
-      tracks.push({ id:Date.now(), title, artist, url, file:null });
-      saveState();
-      uploadModal.style.display='none';
-      showToast(`✓ "${title}" uploaded`);
-      if(currentView==='library') refreshView(); else setView('library');
-      if(tracks.length===1) playTrack(0);
-    });
-    
-    document.getElementById('closeInsight').addEventListener('click', ()=> insightModal.style.display='none');
-    
-    // initial
-    setView('library');
-    updatePlayerUI();
-    
-    // founder touch
-    console.log('HanzWave · Hanz Domingos · feel the data, live the sound');
-  })();
+const slides=[...document.querySelectorAll('.slide')];let current=0;
+function show(i){slides[current].classList.remove('active');current=(i+slides.length)%slides.length;slides[current].classList.add('active');document.querySelectorAll('.slideNo').forEach((n,idx)=>n.textContent=`${idx+1}/${slides.length}`);document.getElementById('progress').style.width=((current+1)/slides.length*100)+'%';}
+function nextSlide(){show(current+1)}function prevSlide(){show(current-1)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')nextSlide();if(e.key==='ArrowLeft'||e.key==='PageUp')prevSlide();if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+show(0);
 </script>
-<!-- Additional upload trigger from sidebar button (missing id fix) -->
-<script>document.getElementById('sidebarUploadBtn')?.addEventListener('click',()=>document.getElementById('uploadModal').style.display='flex');</script>
 </body>
 </html>
