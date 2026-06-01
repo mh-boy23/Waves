@@ -846,6 +846,198 @@ img{max-width:100%}
   }
 }
 
+
+/* ===== Documento A4 completo: solução final para celular/tablet ===== */
+.paper-stage{
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  display:block;
+}
+.document-full-body .paper-stage{max-width:820px;margin:0 auto}
+@media(max-width:820px){
+  .doc-preview-wrap{overflow:visible!important}
+  .paper-stage{
+    width:100%!important;
+    margin:0 auto!important;
+    background:#eef2f5;
+    border-radius:12px;
+    overflow:hidden!important;
+  }
+  .paper-stage .paper{
+    box-sizing:border-box!important;
+    width:794px!important;
+    min-width:794px!important;
+    max-width:none!important;
+    min-height:1123px!important;
+    height:auto!important;
+    aspect-ratio:auto!important;
+    padding:38px 38px 32px!important;
+    margin:0!important;
+    transform-origin:top left!important;
+    transform:scale(var(--a4-scale, .40))!important;
+    box-shadow:none!important;
+    background:#fff!important;
+    overflow:visible!important;
+  }
+  /* Restaurar a composição original A4 da cotação/factura */
+  .paper-stage .hp-paper{padding:26px 28px 24px!important;font-size:10px!important}
+  .paper-stage .hp-header{
+    display:grid!important;grid-template-columns:43% 57%!important;
+    gap:12px!important;min-height:130px!important;margin-bottom:14px!important
+  }
+  .paper-stage .hp-logo-doc{
+    width:275px!important;max-height:100px!important;margin:0!important;
+    padding:4px!important;object-fit:contain!important
+  }
+  .paper-stage .hp-company-data{text-align:center!important;font-size:10px!important;line-height:1.5!important;margin-top:6px!important}
+  .paper-stage .hp-title{
+    text-align:right!important;padding-top:47px!important;font-size:16px!important;
+    margin:0!important;text-decoration:underline!important
+  }
+  .paper-stage .hp-client-data{
+    padding-top:26px!important;border:0!important;margin:0!important;
+    line-height:1.7!important;font-size:10.5px!important
+  }
+  .paper-stage .hp-summary{
+    border:1px solid #111!important;margin:12px 0 5px!important;
+    display:grid!important;grid-template-columns:1.1fr 2.1fr 1.5fr 1.6fr .95fr 1.7fr!important
+  }
+  .paper-stage .hp-summary>div{
+    padding:6px 5px!important;min-height:32px!important;font-size:9px!important;
+    border-right:1px solid #111!important;border-bottom:0!important
+  }
+  .paper-stage .hp-summary .emission{grid-row:span 2!important;grid-column:auto!important}
+  .paper-stage .hp-summary2{
+    display:grid!important;grid-template-columns:3.45fr 1.95fr 1.55fr!important;
+    min-height:35px!important;margin-bottom:4px!important
+  }
+  .paper-stage .hp-summary2 div{
+    padding:5px!important;border-right:1px solid #111!important;border-bottom:0!important;
+    line-height:1.45!important
+  }
+  .paper-stage .hp-lines{table-layout:auto!important;width:100%!important;font-size:9px!important}
+  .paper-stage .hp-lines th{padding:7px 4px!important;white-space:normal!important;word-break:normal!important;width:auto!important}
+  .paper-stage .hp-lines td{padding:7px 4px!important;white-space:normal!important;word-break:normal!important;width:auto!important}
+  .paper-stage .hp-lines .spacer td{height:165px!important}
+  .paper-stage .hp-observations{height:36px!important;min-height:0!important;font-size:10px!important;padding:5px!important}
+  .paper-stage .hp-civa{font-size:8px!important;margin:22px 0 8px!important}
+  .paper-stage .hp-bottom{
+    display:grid!important;grid-template-columns:48% 52%!important;gap:8px!important;min-height:90px!important
+  }
+  .paper-stage .hp-incidence{margin-bottom:0!important}
+  .paper-stage .hp-calc{font-size:10px!important}
+  .paper-stage .hp-bank{font-size:9px!important;margin-top:14px!important;word-break:normal!important}
+  /* Restaurar o recibo original completo */
+  .paper-stage .hp-receipt-header{
+    display:grid!important;grid-template-columns:40% 60%!important;gap:10px!important;
+    min-height:150px!important;text-align:left!important
+  }
+  .paper-stage .hp-receipt-title{text-align:right!important;padding-top:47px!important}
+  .paper-stage .hp-receipt-title .original{margin-bottom:28px!important}
+  .paper-stage .hp-receipt-title h1{font-size:18px!important;margin:0 0 18px!important}
+  .paper-stage .hp-receipt-client{text-align:center!important;font-size:11px!important;line-height:3!important;margin:2px 0 10px!important}
+  .paper-stage .hp-receipt-table{min-height:375px!important;overflow:visible!important}
+  .paper-stage .hp-receipt-table table{font-size:9px!important;table-layout:auto!important}
+  .paper-stage .hp-receipt-table th{padding:5px 6px!important;word-break:normal!important}
+  .paper-stage .hp-receipt-table td{padding:8px 6px!important;word-break:normal!important}
+  .paper-stage .hp-stamp-paid{width:128px!important;right:77px!important;bottom:118px!important}
+  .paper-stage .hp-stamp-company{width:95px!important;right:82px!important;bottom:48px!important}
+  .paper-stage .hp-receipt-total{font-size:11px!important}
+  .paper-stage .hp-words{font-size:10px!important;min-height:65px!important}
+  .paper-stage .signature-row{margin-top:60px!important;font-size:10px!important}
+  .document-full-body{padding:10px!important;background:#eef2f5}
+}
+@media(min-width:821px){
+  .paper-stage{height:auto!important}
+  .paper-stage .paper{transform:none!important}
+}
+
+
+/* ===== Documento em modo de leitura móvel: sem cortes ===== */
+.mobile-document-launch{display:none}
+.mobile-readable-modal{display:none}
+@media(max-width:820px){
+  .mobile-document-launch{
+    display:block;background:#fff;border:1px solid #e5ebf0;border-radius:16px;
+    padding:22px 16px;text-align:center;box-shadow:0 3px 13px rgba(7,24,39,.05)
+  }
+  .mobile-launch-icon{
+    height:46px;width:46px;margin:0 auto 12px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;background:#fff4d8;
+    color:#c98c00;font-size:23px;font-weight:bold
+  }
+  .mobile-document-launch h3{font-size:18px;margin:0 0 8px;color:#071827}
+  .mobile-document-launch p{font-size:13px;line-height:1.55;color:#617183;margin:0 0 17px}
+  .mobile-document-launch .btn{width:100%;margin-top:8px}
+  /* No telemóvel a folha A4 permanece no sistema para PDF/print, mas não ocupa a visualização. */
+  #paperStage,.doc-tools-responsive{display:none!important}
+  .mobile-readable-modal{
+    position:fixed;inset:0;z-index:130;background:#f3f5f7;
+    display:flex;flex-direction:column
+  }
+  .mobile-readable-modal.hidden{display:none!important}
+  .mobile-readable-header{
+    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
+    padding:11px 13px;background:#fff;border-bottom:1px solid #e6ebf0;
+    min-height:62px;position:sticky;top:0;z-index:2
+  }
+  .mobile-readable-header strong{display:block;color:#071827;font-size:16px}
+  .mobile-readable-header span{display:block;color:#687687;font-size:11px;margin-top:2px}
+  .mobile-readable-actions{display:flex;align-items:center;gap:7px}
+  .mobile-readable-body{padding:12px;overflow:auto;-webkit-overflow-scrolling:touch}
+  .mobile-doc{
+    background:#fff;border-radius:16px;border:1px solid #e5ebf0;
+    overflow:hidden;margin-bottom:20px;box-shadow:0 2px 12px rgba(7,24,39,.04)
+  }
+  .mobile-doc-brand{
+    background:#fff;padding:18px 15px 12px;text-align:center;border-bottom:3px solid #f6b514
+  }
+  .mobile-doc-brand img{
+    max-width:235px!important;width:80%!important;max-height:75px!important;
+    height:auto!important;object-fit:contain!important;background:#fff!important
+  }
+  .mobile-doc-company{font-size:11px;color:#526273;line-height:1.65;margin-top:10px}
+  .mobile-doc-type{
+    background:#07172c;color:#fff;padding:15px;display:flex;justify-content:space-between;
+    align-items:center;gap:14px
+  }
+  .mobile-doc-type h2{margin:0;font-size:21px;letter-spacing:-.02em}
+  .mobile-doc-type div{text-align:right;font-size:11px;line-height:1.55;color:#e2e8ee}
+  .mobile-doc-section{padding:15px;border-bottom:1px solid #edf1f4}
+  .mobile-doc-section:last-child{border-bottom:0}
+  .mobile-doc-label{
+    color:#9a6c00;text-transform:uppercase;font-size:10px;letter-spacing:.1em;
+    font-weight:800;margin-bottom:10px
+  }
+  .mobile-client-name{font-size:17px;font-weight:700;color:#071827;margin-bottom:6px}
+  .mobile-kv{display:grid;grid-template-columns:44% 56%;gap:0;font-size:12px}
+  .mobile-kv div{padding:8px 0;border-bottom:1px dashed #e7edf2;line-height:1.45}
+  .mobile-kv div:nth-child(odd){color:#687687;padding-right:9px}
+  .mobile-kv div:nth-child(even){font-weight:600;color:#152535;text-align:right}
+  .mobile-service-card{
+    border:1px solid #e6ebf0;border-radius:12px;padding:12px;background:#fafbfc
+  }
+  .mobile-service-card strong{display:block;font-size:14px;color:#071827;margin-bottom:7px}
+  .mobile-service-card p{font-size:12px;line-height:1.55;color:#536373;margin:0}
+  .mobile-total-block{background:#07172c;color:#fff;border-radius:12px;padding:13px;margin-top:12px}
+  .mobile-total-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12px}
+  .mobile-total-row.grand{border-top:1px solid rgba(255,255,255,.24);margin-top:4px;padding-top:12px;font-size:18px;font-weight:800;color:#ffd052}
+  .mobile-notes{font-size:12px;color:#4f6070;line-height:1.65}
+  .mobile-bank{font-size:11px;line-height:1.7;color:#455667;background:#f6f8fa;border-radius:11px;padding:11px}
+  .mobile-paid{
+    width:118px!important;display:block!important;margin:9px auto 4px!important;transform:rotate(-5deg)
+  }
+  .mobile-company-stamp{
+    width:80px!important;display:block!important;margin:9px auto 0!important
+  }
+  .mobile-words{font-size:13px;line-height:1.65;font-weight:600;color:#172838}
+}
+@media print{
+  .mobile-document-launch,.mobile-readable-modal{display:none!important}
+  #paperStage{display:block!important}
+}
+
 </style>
 </head>
 <body>
@@ -1116,11 +1308,19 @@ img{max-width:100%}
        <div class="doc-tools doc-tools-responsive">
          <span class="small muted">Pré-visualização do documento</span>
          <div class="doc-tool-actions">
-           <button type="button" class="btn btn-outline btn-sm doc-full-btn" onclick="openFullDocument()">Ver completo</button>
+           <button type="button" class="btn btn-outline btn-sm doc-full-btn" onclick="openFullDocument()">Ver A4 completo</button>
            <button type="button" class="btn btn-dark btn-sm" onclick="printDocument()">PDF / Imprimir</button>
          </div>
        </div>
-       <div id="paper" class="paper hp-document"></div>
+       
+       <div class="mobile-document-launch">
+         <div class="mobile-launch-icon">▤</div>
+         <h3>Documento completo</h3>
+         <p>No celular, abra o documento no modo de leitura para visualizar todos os dados sem cortes.</p>
+         <button type="button" class="btn btn-primary" onclick="openMobileDocument()">Abrir documento completo</button>
+         <button type="button" class="btn btn-outline" onclick="printDocument()">Guardar PDF / Imprimir</button>
+       </div>
+<div id="paperStage" class="paper-stage"><div id="paper" class="paper hp-document"></div></div>
      </div>
     </div>
    </section>
@@ -1234,6 +1434,23 @@ img{max-width:100%}
 </div>
 
 
+
+<div id="mobileDocumentModal" class="mobile-readable-modal hidden" role="dialog" aria-label="Documento completo no celular">
+  <div class="mobile-readable-header">
+    <div>
+      <strong>Documento</strong>
+      <span>Visualização completa</span>
+    </div>
+    <div class="mobile-readable-actions">
+      <button type="button" class="btn btn-primary btn-sm" onclick="printDocument()">PDF</button>
+      <button type="button" class="doc-full-close" onclick="closeMobileDocument()" aria-label="Fechar">×</button>
+    </div>
+  </div>
+  <div class="mobile-readable-body">
+    <div id="mobileReadableDocument"></div>
+  </div>
+</div>
+
 <div id="documentFullModal" class="document-full-modal hidden" role="dialog" aria-label="Documento completo">
   <div class="document-full-header">
     <strong>Documento Completo</strong>
@@ -1243,7 +1460,7 @@ img{max-width:100%}
     </div>
   </div>
   <div class="document-full-body">
-    <div id="paperFull" class="paper hp-document"></div>
+    <div id="paperFullStage" class="paper-stage full-stage"><div id="paperFull" class="paper hp-document"></div></div>
   </div>
 </div>
 
@@ -1669,17 +1886,103 @@ function docHTML(d,number){
  return d.type==='receipt' ? receiptDocHTML(d,number) : commercialDocHTML(d,number);
 }
 
+
+function mobileRows(rows){
+ return `<div class="mobile-kv">${rows.map(r=>`<div>${esc(r[0])}</div><div>${r[1]}</div>`).join('')}</div>`;
+}
+function mobileDocumentHTML(d,number){
+ const heading = typeName(d.type);
+ const serviceSubtotal=d.days*d.rate;
+ const vatText=d.vatMode==='included'?'Incluído':(d.vatMode==='add'?money(d.vat):'Sem IVA');
+ if(d.type==='receipt'){
+  return `<article class="mobile-doc">
+    <div class="mobile-doc-brand">
+      <img src="${HP_LOGO}" alt="HP Logística & MultiServiços, Lda">
+      <div class="mobile-doc-company">Av. Ho Chi Min, N.º 263, Maputo<br>+258 87 156 9197 | +258 87 770 7597<br>NUIT: 401475206 · hpinfologistics@gmail.com</div>
+    </div>
+    <div class="mobile-doc-type"><h2>${heading}</h2><div>N.º ${esc(number)}<br>${datePT(d.date)}</div></div>
+    <div class="mobile-doc-section"><div class="mobile-doc-label">Recebemos de</div><div class="mobile-client-name">${esc(d.clientName)}</div>${mobileRows([['NUIT',esc(d.clientNuit||'—')],['Contacto',esc(d.clientPhone||'—')]])}</div>
+    <div class="mobile-doc-section"><div class="mobile-doc-label">Pagamento</div>${mobileRows([['Forma de pagamento',esc(d.paymentMethod)],['Factura regularizada',esc(d.reference||'—')],['Data',datePT(d.date)],['Valor recebido',money(d.total)]])}<img class="mobile-paid" src="${HP_PAID}" alt="Pago"><img class="mobile-company-stamp" src="${HP_STAMP}" alt="Carimbo da empresa"></div>
+    <div class="mobile-doc-section"><div class="mobile-doc-label">Valor por extenso</div><div class="mobile-notes">${amountWords(d.total)}.</div></div>
+  </article>`;
+ }
+ return `<article class="mobile-doc">
+   <div class="mobile-doc-brand">
+     <img src="${HP_LOGO}" alt="HP Logística & MultiServiços, Lda">
+     <div class="mobile-doc-company">Av. Ho Chi Min, N.º 263, Maputo<br>+258 87 156 9197 | +258 87 770 7597<br>NUIT: 401475206 · hpinfologistics@gmail.com</div>
+   </div>
+   <div class="mobile-doc-type"><h2>${heading}</h2><div>N.º ${esc(number)}<br>${datePT(d.date)}</div></div>
+   <div class="mobile-doc-section">
+     <div class="mobile-doc-label">Cliente</div>
+     <div class="mobile-client-name">${esc(d.clientName)}</div>
+     ${mobileRows([['NUIT',esc(d.clientNuit||'—')],['Contacto',esc(d.clientPhone||'—')],['Endereço',esc(d.clientAddress||'Maputo')]])}
+   </div>
+   <div class="mobile-doc-section">
+     <div class="mobile-doc-label">Serviço</div>
+     <div class="mobile-service-card"><strong>${esc(d.description||'Serviço de aluguer de viatura')}</strong><p>${esc(d.vehicle)} · Matrícula: ${esc(d.plate||'—')}</p></div>
+     ${mobileRows([['Período',datePT(d.start)+' — '+datePT(d.end)],['Número de dias',String(d.days)],['Preço por dia',money(d.rate)],['Transporte','Próprio'],['Condição',esc(d.condition||'Pronto pagamento')]])}
+   </div>
+   <div class="mobile-doc-section">
+     <div class="mobile-doc-label">Resumo financeiro</div>
+     <div class="mobile-total-block">
+       <div class="mobile-total-row"><span>Subtotal do aluguer</span><strong>${money(serviceSubtotal)}</strong></div>
+       ${d.delivery?`<div class="mobile-total-row"><span>Entrega</span><strong>${money(d.delivery)}</strong></div>`:''}
+       ${d.discount?`<div class="mobile-total-row"><span>Desconto</span><strong>- ${money(d.discount)}</strong></div>`:''}
+       <div class="mobile-total-row"><span>IVA</span><strong>${vatText}</strong></div>
+       <div class="mobile-total-row grand"><span>Total</span><span>${money(d.total)}</span></div>
+     </div>
+   </div>
+   <div class="mobile-doc-section"><div class="mobile-doc-label">Observações</div><div class="mobile-notes">${esc(d.notes||'—').replace(/\n/g,'<br>')}</div></div>
+   <div class="mobile-doc-section"><div class="mobile-doc-label">Dados bancários</div><div class="mobile-bank"><strong>Standard Bank</strong><br>Conta: 1192036641002<br>NIB: 000301190203664100245<br><br><strong>MBIM</strong><br>Conta: 816218917<br>NIB: 000100000081621891757</div></div>
+ </article>`;
+}
+function updateMobileReadableDocument(d,number){
+ const target=document.getElementById('mobileReadableDocument');
+ if(target) target.innerHTML=mobileDocumentHTML(d,number);
+}
+function openMobileDocument(){
+ updatePreview();
+ const modal=document.getElementById('mobileDocumentModal');
+ if(modal){modal.classList.remove('hidden');document.body.style.overflow='hidden';}
+}
+function closeMobileDocument(){
+ const modal=document.getElementById('mobileDocumentModal');
+ if(modal){modal.classList.add('hidden');document.body.style.overflow='';}
+}
+
 function updatePreview(){
  const d=formData();const number=editingDocId?(state.docs.find(x=>x.id===editingDocId)||{}).number || nextPreviewNumber(d.type):nextPreviewNumber(d.type);
  const rendered = docHTML(d,number);
+ updateMobileReadableDocument(d,number);
  document.getElementById('paper').innerHTML=rendered;
  const full = document.getElementById('paperFull');
  if(full) full.innerHTML = rendered;
+ requestAnimationFrame(fitA4Documents);
+}
+function fitOneA4(stageId, paperId){
+ const stage=document.getElementById(stageId), paper=document.getElementById(paperId);
+ if(!stage || !paper) return;
+ if(window.innerWidth <= 820){
+   const available=Math.max(260, stage.clientWidth);
+   const scale=Math.min(1, available/794);
+   stage.style.setProperty('--a4-scale', String(scale));
+   paper.style.setProperty('--a4-scale', String(scale));
+   const actualHeight=Math.max(paper.scrollHeight, 1123);
+   stage.style.height=Math.ceil(actualHeight*scale)+'px';
+ }else{
+   stage.style.removeProperty('--a4-scale');
+   paper.style.removeProperty('--a4-scale');
+   stage.style.height='auto';
+ }
+}
+function fitA4Documents(){
+ fitOneA4('paperStage','paper');
+ fitOneA4('paperFullStage','paperFull');
 }
 function openFullDocument(){
  updatePreview();
  const modal=document.getElementById('documentFullModal');
- if(modal){modal.classList.remove('hidden');document.body.style.overflow='hidden';}
+ if(modal){modal.classList.remove('hidden');document.body.style.overflow='hidden';requestAnimationFrame(fitA4Documents);}
 }
 function closeFullDocument(){
  const modal=document.getElementById('documentFullModal');
@@ -1727,7 +2030,9 @@ window.closeModal = function(id){
  if(el){ el.classList.add('hidden'); el.style.display=''; }
 };
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFullDocument();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeFullDocument();closeMobileDocument();}});
+window.addEventListener('resize',()=>requestAnimationFrame(fitA4Documents));
+window.addEventListener('orientationchange',()=>setTimeout(fitA4Documents,120));
 init();
 </script>
 </body>
